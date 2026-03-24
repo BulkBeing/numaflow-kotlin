@@ -76,15 +76,24 @@ class SinkServerBuilder {
 
 /**
  * Builder for [SinkerConfig], used inside the `config { }` block of [sinkServer].
+ *
+ * All fields default to the same values as [SinkerConfig], which auto-resolve
+ * socket paths and local mode from the `NUMAFLOW_UD_CONTAINER_TYPE` environment variable.
  */
 @SinkServerDsl
 class SinkerConfigBuilder {
+    var socketPath: String = SinkerConfig.DEFAULT_SOCKET_PATH
     var maxMessageSize: Int = SinkerConfig.DEFAULT_MAX_MESSAGE_SIZE
+    var infoFilePath: String = SinkerConfig.DEFAULT_INFO_FILE_PATH
     var port: Int = SinkerConfig.DEFAULT_PORT
+    var isLocal: Boolean = System.getenv(SinkerConfig.ENV_UD_CONTAINER_TYPE) == null
 
     internal fun build(): SinkerConfig = SinkerConfig(
+        socketPath = socketPath,
         maxMessageSize = maxMessageSize,
-        port = port
+        infoFilePath = infoFilePath,
+        port = port,
+        isLocal = isLocal
     )
 }
 
@@ -108,15 +117,15 @@ class SinkServer internal constructor(
      * - The JVM receives SIGTERM/SIGINT (Numaflow pod termination)
      * - An unrecoverable exception is thrown from [Sinker.processMessages]
      *
-     * Internally, this wraps the Kotlin [Sinker] in a [SinkerAdapter] that bridges
-     * to the Java SDK, then delegates to the Java SDK's [Server][io.numaproj.numaflow.sinker.Server]
-     * for gRPC lifecycle management.
+     * This is intentionally blocking (not `suspend`). The underlying Java SDK's
+     * `server.start()` + `server.awaitTermination()` are fundamentally blocking JVM
+     * calls that use JVM shutdown hooks, not coroutine cancellation.
      */
     fun run() {
         val adapter = SinkerAdapter(sinker)
         val server = if (config != null) {
             JavaServer(adapter, config.toJavaGRPCConfig())
-            } else {
+        } else {
             // Let Java SDK auto-detect everything from environment variables
             JavaServer(adapter)
         }
@@ -127,39 +136,12 @@ class SinkServer internal constructor(
 
 /**
  * Converts a [SinkerConfig] to the Java SDK's [GRPCConfig].
- *
- * Replicates the environment-variable detection logic from the Java SDK's
- * package-private `GRPCConfig.defaultGrpcConfig()` method. The `NUMAFLOW_UD_CONTAINER_TYPE`
- * env var determines:
- * - Socket path (primary, fallback, or on-success sink)
- * - Server info file path
- * - Whether the server runs in local (TCP) or production (UDS) mode
  */
-private fun SinkerConfig.toJavaGRPCConfig(): GRPCConfig {
-    val containerType = System.getenv("NUMAFLOW_UD_CONTAINER_TYPE")
-
-    val socketPath: String
-    val infoFilePath: String
-    when (containerType) {
-        "fb-udsink" -> {
-            socketPath = "/var/run/numaflow/fb-sink.sock"
-            infoFilePath = "/var/run/numaflow/fb-sinker-server-info"
-        }
-        "ons-udsink" -> {
-            socketPath = "/var/run/numaflow/ons-sink.sock"
-            infoFilePath = "/var/run/numaflow/ons-sinker-server-info"
-        }
-        else -> {
-            socketPath = "/var/run/numaflow/sink.sock"
-            infoFilePath = "/var/run/numaflow/sinker-server-info"
-        }
-    }
-
-    return GRPCConfig.newBuilder()
+private fun SinkerConfig.toJavaGRPCConfig(): GRPCConfig =
+    GRPCConfig.newBuilder()
         .socketPath(socketPath)
         .infoFilePath(infoFilePath)
         .maxMessageSize(maxMessageSize)
         .port(port)
-        .isLocal(containerType == null)
+        .isLocal(isLocal)
         .build()
-}

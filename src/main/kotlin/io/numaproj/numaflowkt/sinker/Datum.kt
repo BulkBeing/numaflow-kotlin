@@ -5,8 +5,8 @@ import java.time.Instant
 /**
  * An incoming message in a Numaflow pipeline.
  *
- * Only [id] and [value] are required. All other fields default to `null` when not
- * provided by the platform or when constructing test data.
+ * Only [id] and [value] are required. Collection fields default to empty,
+ * timestamp fields default to `null`.
  *
  * **ByteArray equality:** [equals] and [hashCode] compare [value] by **content**
  * (not reference), so two Datums with identical byte payloads are considered equal.
@@ -18,24 +18,20 @@ import java.time.Instant
  * val datum = Datum(id = "msg-1", value = "hello".toByteArray())
  * ```
  *
- * @property id      Unique message identifier. Used to correlate [Response] to input.
- * @property value   Message payload as raw bytes.
- * @property keys    Optional message keys for routing/partitioning.
- * @property eventTime  Optional event timestamp.
- * @property watermark  Optional watermark timestamp.
- * @property headers    Optional key-value headers.
- * @property userMetadata  Optional mutable user-defined metadata.
- * @property systemMetadata  Optional read-only system metadata.
+ * @property id        Unique message identifier. Used to correlate [Response] to input.
+ * @property value     Message payload as raw bytes.
+ * @property keys      Message keys for routing/partitioning. Empty if not provided.
+ * @property eventTime Optional event timestamp.
+ * @property watermark Optional watermark timestamp.
+ * @property headers   Key-value headers. Empty if not provided.
  */
 data class Datum(
     val id: String,
     val value: ByteArray,
-    val keys: List<String>? = null,
+    val keys: List<String> = emptyList(),
     val eventTime: Instant? = null,
     val watermark: Instant? = null,
-    val headers: Map<String, String>? = null,
-    val userMetadata: UserMetadata? = null,
-    val systemMetadata: SystemMetadata? = null
+    val headers: Map<String, String> = emptyMap()
 ) {
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
@@ -46,19 +42,15 @@ data class Datum(
             && eventTime == other.eventTime
             && watermark == other.watermark
             && headers == other.headers
-            && userMetadata == other.userMetadata
-            && systemMetadata == other.systemMetadata
     }
 
     override fun hashCode(): Int {
         var result = id.hashCode()
         result = 31 * result + value.contentHashCode()
-        result = 31 * result + (keys?.hashCode() ?: 0)
+        result = 31 * result + keys.hashCode()
         result = 31 * result + (eventTime?.hashCode() ?: 0)
         result = 31 * result + (watermark?.hashCode() ?: 0)
-        result = 31 * result + (headers?.hashCode() ?: 0)
-        result = 31 * result + (userMetadata?.hashCode() ?: 0)
-        result = 31 * result + (systemMetadata?.hashCode() ?: 0)
+        result = 31 * result + headers.hashCode()
         return result
     }
 }

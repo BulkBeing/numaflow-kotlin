@@ -1,6 +1,7 @@
 plugins {
     kotlin("jvm") version "2.3.0"
     id("org.jetbrains.dokka") version "2.1.0"
+    `java-test-fixtures`
 }
 
 group = "io.numaproj.numaflowkt"
@@ -28,15 +29,24 @@ dependencies {
     // Coroutines — exposed to consumers (Flow, suspend in API)
     api("org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutinesVersion")
 
-    // gRPC Kotlin stubs for TestKit client
-    implementation("io.grpc:grpc-kotlin-stub:$grpcKotlinVersion")
+    // gRPC/protobuf — needed by the TestKit (testFixtures) for the gRPC client
+    // These are also transitive via numaflow-java, but declared explicitly for testFixtures access
     implementation("io.grpc:grpc-stub:$grpcVersion")
     implementation("io.grpc:grpc-protobuf:$grpcVersion")
     implementation("io.grpc:grpc-netty:$grpcVersion")
     implementation("com.google.protobuf:protobuf-java:$protobufVersion")
     implementation("com.google.protobuf:protobuf-java-util:$protobufVersion")
 
+    // TestKit dependencies (testFixtures source set)
+    testFixturesImplementation("io.numaproj.numaflow:numaflow-java:0.11.0")
+    testFixturesImplementation("io.grpc:grpc-kotlin-stub:$grpcKotlinVersion")
+    testFixturesImplementation("io.grpc:grpc-stub:$grpcVersion")
+    testFixturesImplementation("io.grpc:grpc-protobuf:$grpcVersion")
+    testFixturesImplementation("io.grpc:grpc-netty:$grpcVersion")
+    testFixturesImplementation("com.google.protobuf:protobuf-java:$protobufVersion")
+
     // Test
+    testImplementation(testFixtures(project(":")))
     testImplementation("org.junit.jupiter:junit-jupiter:5.12.1")
     testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutinesVersion")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")

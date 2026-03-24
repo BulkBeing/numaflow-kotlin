@@ -59,7 +59,12 @@ sealed class Response {
     /**
      * Message should be forwarded to the on-success sink.
      *
-     * @property message The message to forward. If `null`, the original message is forwarded as-is.
+     * [message] is required — it specifies the payload to forward. To forward
+     * the original datum payload, use `Message(value = datum.value)`.
+     *
+     * The [message] parameter is intentionally non-nullable. The underlying
+     * Java SDK has a known issue where passing null sends an empty message instead
+     * of forwarding the original. Requiring an explicit [Message] avoids this bug.
      */
-    data class OnSuccess(override val id: String, val message: Message? = null) : Response()
+    data class OnSuccess(override val id: String, val message: Message) : Response()
 }

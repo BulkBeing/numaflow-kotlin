@@ -12,17 +12,28 @@ import java.util.concurrent.CompletableFuture
 import java.util.concurrent.TimeUnit
 import io.numaproj.numaflow.sinker.GRPCConfig
 import io.numaproj.numaflow.sinker.Server as JavaServer
+import kotlin.time.Duration
+import kotlin.time.Duration.Companion.seconds
 
 /**
  * Integration test kit for [Sinker] implementations.
  *
  * Starts a real gRPC server backed by the Java SDK and provides a client that
- * performs the full Numaflow sink protocol (handshake → data → EOT → response
+ * performs the full Numaflow sink protocol (handshake -> data -> EOT -> response
  * collection). Use this to verify the complete path from serialization through
  * gRPC transport to user code and back.
  *
+ * Published as a `testFixtures` source set — add to your project with:
+ * ```kotlin
+ * testImplementation(testFixtures("io.numaproj.numaflowkt:numaflow-kt:x.y.z"))
+ * ```
+ *
  * For simple unit tests that don't need gRPC, call [Sinker.processMessages]
  * directly with [kotlinx.coroutines.flow.flowOf].
+ *
+ * **Implementation note:** This TestKit is coupled to the protobuf schema
+ * bundled with the pinned numaflow-java version. Schema changes in a future
+ * Java SDK bump will require TestKit updates (compile-time errors, not runtime).
  *
  * Example:
  * ```kotlin
@@ -58,6 +69,8 @@ class SinkerTestKit(
     fun start() {
         val adapter = SinkerAdapter(sinker)
         val grpcConfig = GRPCConfig.newBuilder()
+            .socketPath(config.socketPath)
+            .infoFilePath(config.infoFilePath)
             .maxMessageSize(config.maxMessageSize)
             .port(config.port)
             .isLocal(true)
@@ -74,7 +87,7 @@ class SinkerTestKit(
 
     /**
      * Send a batch of messages through the full gRPC sink protocol
-     * (handshake → data messages → EOT) and return the [Response] list.
+     * (handshake -> data messages -> EOT) and return the [Response] list.
      *
      * Implements the Numaflow sink bidirectional streaming protocol:
      * 1. Client sends a [SinkOuterClass.Handshake] with `sot=true`
@@ -85,10 +98,11 @@ class SinkerTestKit(
      * 6. Client calls `onCompleted()`
      *
      * @param datums the messages to send
+     * @param timeout maximum time to wait for responses. Default: 30 seconds.
      * @return one [Response] per input datum
      * @throws IllegalStateException if [start] has not been called
      */
-    fun sendMessages(vararg datums: Datum): List<Response> {
+    fun sendMessages(vararg datums: Datum, timeout: Duration = 30.seconds): List<Response> {
         val ch = requireNotNull(channel) { "start() must be called before sendMessages()" }
         val stub = SinkGrpc.newStub(ch)
 
@@ -124,7 +138,7 @@ class SinkerTestKit(
                 .setId(datum.id)
                 .setValue(ByteString.copyFrom(datum.value))
 
-            datum.keys?.let { requestBuilder.addAllKeys(it) }
+            if (datum.keys.isNotEmpty()) requestBuilder.addAllKeys(datum.keys)
             datum.eventTime?.let {
                 requestBuilder.setEventTime(
                     Timestamp.newBuilder()
@@ -139,7 +153,7 @@ class SinkerTestKit(
                         .setNanos(it.nano)
                 )
             }
-            datum.headers?.let { requestBuilder.putAllHeaders(it) }
+            if (datum.headers.isNotEmpty()) requestBuilder.putAllHeaders(datum.headers)
 
             requestObserver.onNext(
                 SinkOuterClass.SinkRequest.newBuilder()
@@ -159,7 +173,8 @@ class SinkerTestKit(
         requestObserver.onCompleted()
 
         // 5. Collect and convert responses
-        val responses = future.get(30, TimeUnit.SECONDS)
+        val timeoutMs = timeout.inWholeMilliseconds
+        val responses = future.get(timeoutMs, TimeUnit.MILLISECONDS)
         return responses
             .filter { !it.handshake.sot }           // skip handshake ack
             .filter { !(it.hasStatus() && it.status.eot) } // skip EOT ack
@@ -193,10 +208,10 @@ private fun SinkOuterClass.SinkResponse.Result.toKotlinResponse(): Response = wh
         val msg = if (hasOnSuccessMsg() && onSuccessMsg != SinkOuterClass.SinkResponse.Result.Message.getDefaultInstance()) {
             Message(
                 value = onSuccessMsg.value.toByteArray(),
-                keys = onSuccessMsg.keysList.takeIf { it.isNotEmpty() },
+                key = onSuccessMsg.keysList.firstOrNull() ?: "",
             )
         } else {
-            null
+            Message(value = byteArrayOf())
         }
         Response.OnSuccess(id, msg)
     }

@@ -24,8 +24,6 @@ class DatumTest {
     @Test
     fun `datum with all fields populated`() {
         val now = Instant.now()
-        val meta = UserMetadata()
-        meta.put("g", "k", "v".toByteArray())
 
         val datum = Datum(
             id = "msg-1",
@@ -33,8 +31,7 @@ class DatumTest {
             keys = listOf("key1", "key2"),
             eventTime = now,
             watermark = now,
-            headers = mapOf("h1" to "v1"),
-            userMetadata = meta
+            headers = mapOf("h1" to "v1")
         )
 
         assertEquals("msg-1", datum.id)
@@ -45,13 +42,11 @@ class DatumTest {
     }
 
     @Test
-    fun `datum defaults are null`() {
+    fun `datum defaults are empty collections and null timestamps`() {
         val datum = Datum(id = "1", value = byteArrayOf())
-        assertNull(datum.keys)
+        assertEquals(emptyList<String>(), datum.keys)
         assertNull(datum.eventTime)
         assertNull(datum.watermark)
-        assertNull(datum.headers)
-        assertNull(datum.userMetadata)
-        assertNull(datum.systemMetadata)
+        assertEquals(emptyMap<String, String>(), datum.headers)
     }
 }

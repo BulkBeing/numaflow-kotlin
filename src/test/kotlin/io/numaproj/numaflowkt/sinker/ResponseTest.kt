@@ -39,17 +39,16 @@ class ResponseTest {
     }
 
     @Test
-    fun `OnSuccess with null message`() {
-        val r = Response.OnSuccess("1")
-        assertNull(r.message)
-        assertEquals(Response.OnSuccess("1", null), r)
-    }
-
-    @Test
     fun `OnSuccess with message`() {
         val msg = Message(value = "forwarded".toByteArray())
         val r = Response.OnSuccess("1", msg)
         assertEquals(msg, r.message)
+    }
+
+    @Test
+    fun `OnSuccess equality`() {
+        val msg = Message(value = "data".toByteArray())
+        assertEquals(Response.OnSuccess("1", msg), Response.OnSuccess("1", msg))
     }
 
     @Test

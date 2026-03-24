@@ -5,7 +5,6 @@ import io.numaproj.numaflow.sinker.ResponseList
 import io.numaproj.numaflowkt.sinker.Datum
 import io.numaproj.numaflowkt.sinker.Message
 import io.numaproj.numaflowkt.sinker.Response
-import io.numaproj.numaflowkt.sinker.SystemMetadata
 import io.numaproj.numaflowkt.sinker.UserMetadata
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -14,7 +13,7 @@ import io.numaproj.numaflow.sinker.Response as JavaResponse
 import io.numaproj.numaflow.sinker.Message as JavaMessage
 
 // ---------------------------------------------------------------------------
-// DatumIterator → Flow<Datum>
+// DatumIterator -> Flow<Datum>
 // ---------------------------------------------------------------------------
 
 /**
@@ -36,89 +35,29 @@ internal fun DatumIterator.asFlow(): Flow<Datum> = flow {
 }
 
 // ---------------------------------------------------------------------------
-// Java Datum → Kotlin Datum
+// Java Datum -> Kotlin Datum
 // ---------------------------------------------------------------------------
 
 /**
  * Eagerly converts a Java [Datum][JavaDatum] to a Kotlin [Datum] data class.
  *
  * The Java SDK's Datum interface exposes `String[]` for keys, which we convert
- * to `List<String>`. Metadata objects are converted to their Kotlin counterparts.
- * `null` fields from the Java side are preserved as `null` in the Kotlin data class.
+ * to `List<String>`. `null` arrays/maps from the Java side are normalized to
+ * empty collections in the Kotlin data class.
+ *
+ * Note: Java SDK v0.11.0 Datum does not expose userMetadata or systemMetadata.
  */
-internal fun JavaDatum.toKotlinDatum(): Datum {
-    val javaUserMeta: io.numaproj.numaflow.shared.UserMetadata? = getUserMetadata()
-    val javaSysMeta: io.numaproj.numaflow.shared.SystemMetadata? = getSystemMetadata()
-    return Datum(
-        id = getId(),
-        value = getValue(),
-        keys = getKeys()?.toList(),
-        eventTime = getEventTime(),
-        watermark = getWatermark(),
-        headers = getHeaders(),
-        userMetadata = javaUserMeta?.toKotlinUserMetadata(),
-        systemMetadata = javaSysMeta?.toKotlinSystemMetadata()
-    )
-}
+internal fun JavaDatum.toKotlinDatum(): Datum = Datum(
+    id = getId(),
+    value = getValue(),
+    keys = getKeys()?.toList() ?: emptyList(),
+    eventTime = getEventTime(),
+    watermark = getWatermark(),
+    headers = getHeaders() ?: emptyMap()
+)
 
 // ---------------------------------------------------------------------------
-// Metadata conversions
-// ---------------------------------------------------------------------------
-
-/**
- * Converts a Java [UserMetadata][io.numaproj.numaflow.shared.UserMetadata] to a Kotlin [UserMetadata].
- *
- * Iterates over all groups and keys in the Java metadata, reading values
- * via `getValue()` (which returns cloned byte arrays).
- */
-internal fun io.numaproj.numaflow.shared.UserMetadata.toKotlinUserMetadata(): UserMetadata {
-    val meta = UserMetadata()
-    for (group in this.getGroups()) {
-        for (key in this.getKeys(group)) {
-            val value = this.getValue(group, key) ?: continue
-            meta.put(group, key, value)
-        }
-    }
-    return meta
-}
-
-/**
- * Converts a Java [SystemMetadata][io.numaproj.numaflow.shared.SystemMetadata] to a Kotlin [SystemMetadata].
- *
- * Iterates over all groups and keys in the Java metadata, building an
- * immutable map structure for the read-only Kotlin counterpart.
- */
-internal fun io.numaproj.numaflow.shared.SystemMetadata.toKotlinSystemMetadata(): SystemMetadata {
-    val groups = mutableMapOf<String, Map<String, ByteArray>>()
-    for (group in this.getGroups()) {
-        val keys = mutableMapOf<String, ByteArray>()
-        for (key in this.getKeys(group)) {
-            val value = this.getValue(group, key) ?: continue
-            keys[key] = value
-        }
-        groups[group] = keys
-    }
-    return SystemMetadata(groups)
-}
-
-/**
- * Converts a Kotlin [UserMetadata] to a Java [UserMetadata][io.numaproj.numaflow.shared.UserMetadata].
- *
- * Used when converting [Message] for [Response.OnSuccess] back to the Java SDK.
- */
-internal fun UserMetadata.toJavaUserMetadata(): io.numaproj.numaflow.shared.UserMetadata {
-    val javaMeta = io.numaproj.numaflow.shared.UserMetadata()
-    for (group in groups()) {
-        for (key in keys(group)) {
-            val value = get(group, key) ?: continue
-            javaMeta.addKV(group, key, value)
-        }
-    }
-    return javaMeta
-}
-
-// ---------------------------------------------------------------------------
-// Kotlin Response → Java Response
+// Kotlin Response -> Java Response
 // ---------------------------------------------------------------------------
 
 /**
@@ -136,39 +75,55 @@ internal fun List<Response>.toJavaResponseList(): ResponseList {
  * Converts a single Kotlin [Response] to a Java [Response][JavaResponse].
  *
  * Maps each sealed subtype to the corresponding Java factory method:
- * - [Response.Ok] → `Response.responseOK()`
- * - [Response.Failure] → `Response.responseFailure()`
- * - [Response.Fallback] → `Response.responseFallback()`
- * - [Response.Serve] → `Response.responseServe()`
- * - [Response.OnSuccess] → `Response.responseOnSuccess()`
+ * - [Response.Ok] -> `Response.responseOK()`
+ * - [Response.Failure] -> `Response.responseFailure()`
+ * - [Response.Fallback] -> `Response.responseFallback()`
+ * - [Response.Serve] -> `Response.responseServe()`
+ * - [Response.OnSuccess] -> `Response.responseOnSuccess()`
  */
 internal fun Response.toJavaResponse(): JavaResponse = when (this) {
     is Response.Ok -> JavaResponse.responseOK(id)
     is Response.Failure -> JavaResponse.responseFailure(id, error)
     is Response.Fallback -> JavaResponse.responseFallback(id)
     is Response.Serve -> JavaResponse.responseServe(id, payload)
-    is Response.OnSuccess -> JavaResponse.responseOnSuccess(id, message?.toJavaMessage())
+    is Response.OnSuccess -> JavaResponse.responseOnSuccess(id, message.toJavaMessage())
 }
 
 // ---------------------------------------------------------------------------
-// Kotlin Message → Java Message
+// Kotlin Message -> Java Message
 // ---------------------------------------------------------------------------
 
 /**
  * Converts a Kotlin [Message] to a Java [Message][JavaMessage].
  *
- * Selects the appropriate Java constructor based on which optional fields are present.
- * The Java [Message][JavaMessage] has three constructors:
- * - `Message(byte[])` — value only
- * - `Message(byte[], String[])` — value + keys
- * - `Message(byte[], String[], UserMetadata)` — value + keys + metadata
+ * Uses the Java SDK's Lombok `@Builder` pattern to construct the Java Message
+ * with value, key (singular), and optional userMetadata.
  */
-internal fun Message.toJavaMessage(): JavaMessage {
-    val javaKeys: Array<String>? = keys?.toTypedArray()
-    val javaMeta: io.numaproj.numaflow.shared.UserMetadata? = userMetadata?.toJavaUserMetadata()
-    return when {
-        javaKeys != null && javaMeta != null -> JavaMessage(value, javaKeys, javaMeta)
-        javaKeys != null -> JavaMessage(value, javaKeys)
-        else -> JavaMessage(value)
+internal fun Message.toJavaMessage(): JavaMessage = JavaMessage.builder()
+    .value(value)
+    .key(key)
+    .userMetadata(userMetadata?.toJavaUserMetadata())
+    .build()
+
+// ---------------------------------------------------------------------------
+// Kotlin UserMetadata -> Java HashMap<String, KeyValueGroup>
+// ---------------------------------------------------------------------------
+
+/**
+ * Converts a Kotlin [UserMetadata] to the Java SDK's metadata structure.
+ *
+ * The Java SDK's [Message] stores user metadata as `HashMap<String, KeyValueGroup>`
+ * where `KeyValueGroup` wraps `HashMap<String, byte[]>`.
+ */
+internal fun UserMetadata.toJavaUserMetadata(): HashMap<String, io.numaproj.numaflow.sinker.KeyValueGroup> {
+    val result = HashMap<String, io.numaproj.numaflow.sinker.KeyValueGroup>()
+    for (group in groups()) {
+        val kvMap = HashMap<String, ByteArray>()
+        for (key in keys(group)) {
+            val value = get(group, key) ?: continue
+            kvMap[key] = value
+        }
+        result[group] = io.numaproj.numaflow.sinker.KeyValueGroup.builder().keyValue(kvMap).build()
     }
+    return result
 }

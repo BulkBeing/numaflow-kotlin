@@ -13,3 +13,4 @@ rootProject.name = "numaflow-kotlin"
 
 include("examples:sinker:simple-sink")
 include("examples:sinker:concurrent-sink")
+include("examples:sinker:onsuccess-sink")

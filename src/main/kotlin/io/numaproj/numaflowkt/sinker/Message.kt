@@ -3,56 +3,55 @@ package io.numaproj.numaflowkt.sinker
 /**
  * A message to forward to the on-success sink.
  *
- * Used with [Response.OnSuccess] when the user wants to send a custom payload
- * instead of forwarding the original message.
+ * Used with [Response.OnSuccess] to specify what payload to forward.
  *
  * **ByteArray equality:** [equals] compares [value] by content, not reference.
  *
- * Example — forward original datum as-is:
+ * Example — forward original datum payload:
  * ```kotlin
- * Response.OnSuccess(datum.id, Message.fromDatum(datum))
+ * Response.OnSuccess(datum.id, Message(value = datum.value))
  * ```
  *
- * Example — custom message:
+ * Example — custom message with key:
  * ```kotlin
- * Response.OnSuccess(datum.id, Message(value = transformedBytes))
+ * Response.OnSuccess(datum.id, Message(
+ *     value = transformedBytes,
+ *     key = "routing-key"
+ * ))
  * ```
  *
- * @property value  Message payload as raw bytes.
- * @property keys   Optional message keys.
- * @property userMetadata  Optional user metadata to propagate.
+ * Example — with metadata:
+ * ```kotlin
+ * Response.OnSuccess(datum.id, Message(
+ *     value = datum.value,
+ *     key = "routing-key",
+ *     userMetadata = UserMetadata().apply {
+ *         put("tracking", "request-id", "abc-123".toByteArray())
+ *     }
+ * ))
+ * ```
+ *
+ * @property value         Message payload as raw bytes.
+ * @property key           Message key for routing. Empty string if not provided.
+ *                         Maps to the Java SDK's `Message.key` (singular).
+ * @property userMetadata  Optional user metadata to propagate to the on-success sink.
  */
 data class Message(
     val value: ByteArray,
-    val keys: List<String>? = null,
+    val key: String = "",
     val userMetadata: UserMetadata? = null
 ) {
-    companion object {
-        /**
-         * Creates a [Message] from an existing [Datum], copying its value, keys,
-         * and user metadata.
-         *
-         * The [Datum.value] is defensively copied so mutations to the original
-         * byte array do not affect this message.
-         */
-        fun fromDatum(datum: Datum): Message = Message(
-            value = datum.value.copyOf(),
-            keys = datum.keys,
-            userMetadata = datum.userMetadata
-        )
-    }
-
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (other !is Message) return false
         return value.contentEquals(other.value)
-            && keys == other.keys
+            && key == other.key
             && userMetadata == other.userMetadata
     }
 
     override fun hashCode(): Int {
         var result = value.contentHashCode()
-        result = 31 * result + (keys?.hashCode() ?: 0)
+        result = 31 * result + key.hashCode()
         result = 31 * result + (userMetadata?.hashCode() ?: 0)
         return result
     }

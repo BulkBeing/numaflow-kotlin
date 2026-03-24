@@ -3,10 +3,13 @@ package io.numaproj.numaflowkt.sinker
 /**
  * Mutable user-defined metadata organized as groups of key-value pairs.
  *
- * Structure: `group → key → ByteArray value`
+ * Used with [Message] to propagate metadata to the on-success sink.
+ * Not available on [Datum] — metadata propagation on incoming messages
+ * was added in a later version of the Java SDK (post v0.11.0).
  *
- * This is the Kotlin counterpart of the Java SDK's `UserMetadata`. Values are
- * stored as raw byte arrays, matching the protobuf wire format.
+ * Structure: `group -> key -> ByteArray value`
+ *
+ * Maps internally to the Java SDK's `HashMap<String, KeyValueGroup>`.
  *
  * Example:
  * ```kotlin
@@ -56,7 +59,6 @@ class UserMetadata(
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (other !is UserMetadata) return false
-        // Compare group structure and byte array contents
         val thisGroups = this.groups
         val otherGroups = other.groups
         if (thisGroups.keys != otherGroups.keys) return false

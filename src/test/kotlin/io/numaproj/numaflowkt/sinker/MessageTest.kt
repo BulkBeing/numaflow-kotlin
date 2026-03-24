@@ -21,30 +21,27 @@ class MessageTest {
     }
 
     @Test
-    fun `fromDatum copies value defensively`() {
-        val original = "hello".toByteArray()
-        val datum = Datum(id = "1", value = original)
-        val message = Message.fromDatum(datum)
-
-        // Mutate the original — should not affect the message
-        original[0] = 'X'.code.toByte()
-        assertArrayEquals("hello".toByteArray(), message.value)
+    fun `message with key`() {
+        val msg = Message(value = "data".toByteArray(), key = "routing-key")
+        assertEquals("routing-key", msg.key)
     }
 
     @Test
-    fun `fromDatum preserves keys and metadata`() {
+    fun `message key defaults to empty string`() {
+        val msg = Message(value = "data".toByteArray())
+        assertEquals("", msg.key)
+    }
+
+    @Test
+    fun `message with user metadata`() {
         val meta = UserMetadata()
         meta.put("g", "k", "v".toByteArray())
 
-        val datum = Datum(
-            id = "1",
+        val msg = Message(
             value = "data".toByteArray(),
-            keys = listOf("k1", "k2"),
+            key = "k1",
             userMetadata = meta
         )
-
-        val message = Message.fromDatum(datum)
-        assertEquals(listOf("k1", "k2"), message.keys)
-        assertEquals(meta, message.userMetadata)
+        assertEquals(meta, msg.userMetadata)
     }
 }
