@@ -2,6 +2,7 @@ plugins {
     kotlin("jvm") version "2.3.0"
     id("org.jetbrains.dokka") version "2.1.0"
     `java-test-fixtures`
+    `maven-publish`
 }
 
 group = "io.numaproj.numaflowkt"
@@ -58,4 +59,25 @@ kotlin {
 
 tasks.test {
     useJUnitPlatform()
+}
+
+publishing {
+    publications {
+        create<MavenPublication>("mavenKotlin") {
+            from(components["java"])
+            groupId = "io.github.bulkbeing"
+            artifactId = "numaflow-kotlin"
+            version = project.version.toString()
+        }
+    }
+    repositories {
+        maven {
+            name = "GitHubPackages"
+            url = uri("https://maven.pkg.github.com/BulkBeing/numaflow-kotlin")
+            credentials {
+                username = System.getenv("GITHUB_ACTOR")
+                password = System.getenv("GITHUB_TOKEN")
+            }
+        }
+    }
 }
