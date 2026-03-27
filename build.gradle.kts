@@ -3,6 +3,7 @@ plugins {
     id("org.jetbrains.dokka") version "2.1.0"
     `java-test-fixtures`
     `maven-publish`
+    signing
 }
 
 group = "io.numaproj.numaflowkt"
@@ -61,16 +62,60 @@ tasks.test {
     useJUnitPlatform()
 }
 
+java {
+    withSourcesJar()
+}
+
+val dokkaJavadocJar by tasks.registering(Jar::class) {
+    dependsOn(tasks.dokkaJavadoc)
+    from(tasks.dokkaJavadoc.flatMap { it.outputDirectory })
+    archiveClassifier.set("javadoc")
+}
+
 publishing {
     publications {
         create<MavenPublication>("mavenKotlin") {
             from(components["java"])
+            artifact(dokkaJavadocJar)
+
             groupId = "io.github.bulkbeing"
             artifactId = "numaflow-kotlin"
             version = project.version.toString()
+
+            pom {
+                name.set("numaflow-kotlin")
+                description.set("Kotlin SDK for Numaflow")
+                url.set("https://github.com/BulkBeing/numaflow-kotlin")
+                licenses {
+                    license {
+                        name.set("Apache-2.0")
+                        url.set("https://www.apache.org/licenses/LICENSE-2.0")
+                    }
+                }
+                developers {
+                    developer {
+                        id.set("BulkBeing")
+                        name.set("Sreekanth")
+                        email.set("prsreekanth920@gmail.com")
+                    }
+                }
+                scm {
+                    url.set("https://github.com/BulkBeing/numaflow-kotlin")
+                    connection.set("scm:git:git://github.com/BulkBeing/numaflow-kotlin.git")
+                    developerConnection.set("scm:git:ssh://github.com/BulkBeing/numaflow-kotlin.git")
+                }
+            }
         }
     }
     repositories {
+        maven {
+            name = "central"
+            url = uri("https://central.sonatype.com/api/v1/publisher/deployments/download/")
+            credentials {
+                username = System.getenv("MVN_CENTRAL_USERNAME")
+                password = System.getenv("MVN_CENTRAL_PASSWORD")
+            }
+        }
         maven {
             name = "GitHubPackages"
             url = uri("https://maven.pkg.github.com/BulkBeing/numaflow-kotlin")
@@ -80,4 +125,12 @@ publishing {
             }
         }
     }
+}
+
+signing {
+    isRequired = System.getenv("GPG_PRIVATE_KEY") != null
+    val signingKey = System.getenv("GPG_PRIVATE_KEY")
+    val signingPassword = System.getenv("GPG_PASSPHRASE") ?: ""
+    useInMemoryPgpKeys(signingKey, signingPassword)
+    sign(publishing.publications["mavenKotlin"])
 }
