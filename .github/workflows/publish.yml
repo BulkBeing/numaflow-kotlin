@@ -41,7 +41,7 @@ jobs:
 
       - name: Publish snapshot to Maven Central
         if: github.event_name == 'workflow_dispatch'
-        run: ./gradlew publishAggregationToCentralPortalSnapshots
+        run: ./gradlew publishAggregationToCentralSnapshots
         env:
           MVN_CENTRAL_USERNAME: ${{ secrets.MVN_CENTRAL_USERNAME }}
           MVN_CENTRAL_PASSWORD: ${{ secrets.MVN_CENTRAL_PASSWORD }}
