@@ -8,7 +8,7 @@ plugins {
 }
 
 group = "io.numaproj.numaflowkt"
-version = "0.1.0-SNAPSHOT"
+version = System.getenv("RELEASE_VERSION") ?: "0.1.0-SNAPSHOT"
 description = "Kotlin-idiomatic SDK for Numaflow User-Defined Functions"
 
 allprojects {
