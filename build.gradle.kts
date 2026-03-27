@@ -1,5 +1,6 @@
 plugins {
     kotlin("jvm") version "2.3.0"
+    id("org.jetbrains.dokka") version "2.1.0"
     id("org.jetbrains.dokka-javadoc") version "2.1.0"
     `java-test-fixtures`
     `maven-publish`
@@ -109,14 +110,6 @@ publishing {
     }
     repositories {
         maven {
-            name = "central"
-            url = uri("https://central.sonatype.com/api/v1/publisher/deployments/download/")
-            credentials {
-                username = System.getenv("MVN_CENTRAL_USERNAME")
-                password = System.getenv("MVN_CENTRAL_PASSWORD")
-            }
-        }
-        maven {
             name = "GitHubPackages"
             url = uri("https://maven.pkg.github.com/BulkBeing/numaflow-kotlin")
             credentials {
@@ -134,3 +127,4 @@ signing {
     useInMemoryPgpKeys(signingKey, signingPassword)
     sign(publishing.publications["mavenKotlin"])
 }
+

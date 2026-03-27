@@ -30,7 +30,7 @@ jobs:
         uses: gradle/actions/setup-gradle@v4
 
       - name: Publish to Maven Central
-        run: ./gradlew publishMavenKotlinPublicationToCentralRepository
+        run: ./gradlew publishAggregationToCentralPortal
         env:
           MVN_CENTRAL_USERNAME: ${{ secrets.MVN_CENTRAL_USERNAME }}
           MVN_CENTRAL_PASSWORD: ${{ secrets.MVN_CENTRAL_PASSWORD }}
