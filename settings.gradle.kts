@@ -23,3 +23,8 @@ rootProject.name = "numaflow-kotlin"
 include("examples:sinker:simple-sink")
 include("examples:sinker:concurrent-sink")
 include("examples:sinker:onsuccess-sink")
+
+include("examples:mapper:simple-map")
+include("examples:mapper:flatmap")
+include("examples:mapstreamer:word-splitter")
+include("examples:batchmapper:simple-batch")
