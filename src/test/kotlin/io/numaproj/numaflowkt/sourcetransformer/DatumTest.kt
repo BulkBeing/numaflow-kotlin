@@ -1,4 +1,4 @@
-package io.numaproj.numaflowkt.mapstreamer
+package io.numaproj.numaflowkt.sourcetransformer
 
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test

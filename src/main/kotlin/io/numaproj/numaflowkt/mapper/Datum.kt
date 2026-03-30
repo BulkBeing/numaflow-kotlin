@@ -18,18 +18,18 @@ import java.time.Instant
  *
  * Example -- constructing test data:
  * ```kotlin
- * val datum = Datum(value = "hello".toByteArray())
+ * val datum = Datum(value = "hello".toByteArray(), eventTime = Instant.now(), watermark = Instant.now())
  * ```
  *
  * @property value     Raw message payload as bytes.
- * @property eventTime Event timestamp assigned by the source. `null` if not set.
- * @property watermark Watermark timestamp indicating processing progress. `null` if not set.
+ * @property eventTime Event timestamp assigned by the source.
+ * @property watermark Watermark timestamp indicating processing progress.
  * @property headers   Key-value metadata headers propagated through the pipeline. Empty map if none.
  */
 data class Datum(
     val value: ByteArray,
-    val eventTime: Instant? = null,
-    val watermark: Instant? = null,
+    val eventTime: Instant,
+    val watermark: Instant,
     val headers: Map<String, String> = emptyMap()
 ) {
     override fun equals(other: Any?): Boolean {
@@ -43,8 +43,8 @@ data class Datum(
 
     override fun hashCode(): Int {
         var result = value.contentHashCode()
-        result = 31 * result + (eventTime?.hashCode() ?: 0)
-        result = 31 * result + (watermark?.hashCode() ?: 0)
+        result = 31 * result + eventTime.hashCode()
+        result = 31 * result + watermark.hashCode()
         result = 31 * result + headers.hashCode()
         return result
     }

@@ -2,8 +2,11 @@ package io.numaproj.numaflowkt.mapper
 
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
+import java.time.Instant
 
 class MapperTestKitTest {
+
+    private val now = Instant.now()
 
     @Test
     fun `simple mapping over gRPC`() {
@@ -16,7 +19,7 @@ class MapperTestKitTest {
             kit.start()
             val results = kit.sendRequest(
                 keys = listOf("key1"),
-                datum = Datum(value = "hello".toByteArray())
+                datum = Datum(value = "hello".toByteArray(), eventTime = now, watermark = now)
             )
             assertEquals(1, results.size)
             assertEquals("HELLO", String(results[0].value))
@@ -36,7 +39,7 @@ class MapperTestKitTest {
             kit.start()
             val results = kit.sendRequest(
                 keys = listOf("k"),
-                datum = Datum(value = "a,b,c".toByteArray())
+                datum = Datum(value = "a,b,c".toByteArray(), eventTime = now, watermark = now)
             )
             assertEquals(3, results.size)
             assertEquals("a", String(results[0].value))
@@ -54,7 +57,7 @@ class MapperTestKitTest {
         MapperTestKit(mapper, MapperConfig(port = 50073)).use { kit ->
             kit.start()
             val results = kit.sendRequest(
-                datum = Datum(value = "test".toByteArray())
+                datum = Datum(value = "test".toByteArray(), eventTime = now, watermark = now)
             )
             assertEquals(1, results.size)
             assertEquals(listOf("U+005C__DROP__"), results[0].tags)

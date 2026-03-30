@@ -6,8 +6,11 @@ import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
+import java.time.Instant
 
 class BatchMapperUnitTest {
+
+    private val now = Instant.now()
 
     @Test
     fun `simple 1-1 batch mapping`() = runTest {
@@ -22,8 +25,8 @@ class BatchMapperUnitTest {
 
         val result = batchMapper.processMessage(
             flowOf(
-                Datum(id = "1", value = "hello".toByteArray(), keys = listOf("k1")),
-                Datum(id = "2", value = "world".toByteArray(), keys = listOf("k2"))
+                Datum(id = "1", value = "hello".toByteArray(), keys = listOf("k1"), eventTime = now, watermark = now),
+                Datum(id = "2", value = "world".toByteArray(), keys = listOf("k2"), eventTime = now, watermark = now)
             )
         )
 
@@ -48,7 +51,7 @@ class BatchMapperUnitTest {
         }
 
         val result = batchMapper.processMessage(
-            flowOf(Datum(id = "1", value = "a,b,c".toByteArray()))
+            flowOf(Datum(id = "1", value = "a,b,c".toByteArray(), eventTime = now, watermark = now))
         )
 
         assertEquals(1, result.size)
@@ -71,8 +74,8 @@ class BatchMapperUnitTest {
 
         val result = batchMapper.processMessage(
             flowOf(
-                Datum(id = "1", value = "1".toByteArray()),
-                Datum(id = "2", value = "3".toByteArray())
+                Datum(id = "1", value = "1".toByteArray(), eventTime = now, watermark = now),
+                Datum(id = "2", value = "3".toByteArray(), eventTime = now, watermark = now)
             )
         )
 
@@ -89,7 +92,7 @@ class BatchMapperUnitTest {
         }
 
         val result = batchMapper.processMessage(
-            flowOf(Datum(id = "1", value = "test".toByteArray()))
+            flowOf(Datum(id = "1", value = "test".toByteArray(), eventTime = now, watermark = now))
         )
 
         assertEquals(Message.drop(), result[0].messages[0])
@@ -121,9 +124,9 @@ class BatchMapperUnitTest {
 
         val result = batchMapper.processMessage(
             flowOf(
-                Datum(id = "a", value = "1".toByteArray()),
-                Datum(id = "b", value = "2".toByteArray()),
-                Datum(id = "c", value = "3".toByteArray())
+                Datum(id = "a", value = "1".toByteArray(), eventTime = now, watermark = now),
+                Datum(id = "b", value = "2".toByteArray(), eventTime = now, watermark = now),
+                Datum(id = "c", value = "3".toByteArray(), eventTime = now, watermark = now)
             )
         )
 

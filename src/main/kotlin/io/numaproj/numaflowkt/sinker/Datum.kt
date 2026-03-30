@@ -5,8 +5,8 @@ import java.time.Instant
 /**
  * An incoming message in a Numaflow pipeline.
  *
- * Only [id] and [value] are required. Collection fields default to empty,
- * timestamp fields default to `null`.
+ * [id], [value], [eventTime], and [watermark] are required. Collection fields
+ * default to empty.
  *
  * **ByteArray equality:** [equals] and [hashCode] compare [value] by **content**
  * (not reference), so two Datums with identical byte payloads are considered equal.
@@ -15,22 +15,22 @@ import java.time.Instant
  *
  * Example — constructing test data:
  * ```kotlin
- * val datum = Datum(id = "msg-1", value = "hello".toByteArray())
+ * val datum = Datum(id = "msg-1", value = "hello".toByteArray(), eventTime = Instant.now(), watermark = Instant.now())
  * ```
  *
  * @property id        Unique message identifier. Used to correlate [Response] to input.
  * @property value     Message payload as raw bytes.
  * @property keys      Message keys for routing/partitioning. Empty if not provided.
- * @property eventTime Optional event timestamp.
- * @property watermark Optional watermark timestamp.
+ * @property eventTime Event timestamp assigned by the source.
+ * @property watermark Watermark timestamp indicating processing progress.
  * @property headers   Key-value headers. Empty if not provided.
  */
 data class Datum(
     val id: String,
     val value: ByteArray,
     val keys: List<String> = emptyList(),
-    val eventTime: Instant? = null,
-    val watermark: Instant? = null,
+    val eventTime: Instant,
+    val watermark: Instant,
     val headers: Map<String, String> = emptyMap()
 ) {
     override fun equals(other: Any?): Boolean {
@@ -48,8 +48,8 @@ data class Datum(
         var result = id.hashCode()
         result = 31 * result + value.contentHashCode()
         result = 31 * result + keys.hashCode()
-        result = 31 * result + (eventTime?.hashCode() ?: 0)
-        result = 31 * result + (watermark?.hashCode() ?: 0)
+        result = 31 * result + eventTime.hashCode()
+        result = 31 * result + watermark.hashCode()
         result = 31 * result + headers.hashCode()
         return result
     }

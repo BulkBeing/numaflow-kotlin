@@ -3,8 +3,11 @@ package io.numaproj.numaflowkt.mapper
 import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
+import java.time.Instant
 
 class MapperUnitTest {
+
+    private val now = Instant.now()
 
     @Test
     fun `simple 1-1 mapping`() = runTest {
@@ -15,7 +18,7 @@ class MapperUnitTest {
 
         val result = mapper.processMessage(
             listOf("key1"),
-            Datum(value = "hello".toByteArray())
+            Datum(value = "hello".toByteArray(), eventTime = now, watermark = now)
         )
 
         assertEquals(1, result.size)
@@ -32,7 +35,7 @@ class MapperUnitTest {
 
         val result = mapper.processMessage(
             listOf("k"),
-            Datum(value = "a,b,c".toByteArray())
+            Datum(value = "a,b,c".toByteArray(), eventTime = now, watermark = now)
         )
 
         assertEquals(3, result.size)
@@ -50,8 +53,8 @@ class MapperUnitTest {
                 listOf(Message.drop())
         }
 
-        val kept = mapper.processMessage(listOf("k"), Datum(value = "keep-this".toByteArray()))
-        val dropped = mapper.processMessage(listOf("k"), Datum(value = "discard".toByteArray()))
+        val kept = mapper.processMessage(listOf("k"), Datum(value = "keep-this".toByteArray(), eventTime = now, watermark = now))
+        val dropped = mapper.processMessage(listOf("k"), Datum(value = "discard".toByteArray(), eventTime = now, watermark = now))
 
         assertEquals(1, kept.size)
         assertEquals("keep-this", String(kept[0].value))
@@ -67,7 +70,7 @@ class MapperUnitTest {
 
         val result = mapper.processMessage(
             listOf("key1", "key2"),
-            Datum(value = "test".toByteArray())
+            Datum(value = "test".toByteArray(), eventTime = now, watermark = now)
         )
 
         assertEquals(listOf("key1", "key2"), result[0].keys)
@@ -79,7 +82,7 @@ class MapperUnitTest {
             listOf(Message(value = datum.value, keys = keys))
         }
 
-        val result = mapper.processMessage(emptyList(), Datum(value = byteArrayOf()))
+        val result = mapper.processMessage(emptyList(), Datum(value = byteArrayOf(), eventTime = now, watermark = now))
 
         assertEquals(1, result.size)
         assertEquals(0, result[0].value.size)
@@ -96,6 +99,8 @@ class MapperUnitTest {
             emptyList(),
             Datum(
                 value = "test".toByteArray(),
+                eventTime = now,
+                watermark = now,
                 headers = mapOf("source" to "kafka")
             )
         )

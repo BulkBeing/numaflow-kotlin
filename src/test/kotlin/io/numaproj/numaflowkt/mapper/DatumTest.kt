@@ -6,32 +6,31 @@ import java.time.Instant
 
 class DatumTest {
 
+    private val now = Instant.now()
+
     @Test
     fun `datum equality compares value by content`() {
-        val d1 = Datum(value = "hello".toByteArray())
-        val d2 = Datum(value = "hello".toByteArray())
+        val d1 = Datum(value = "hello".toByteArray(), eventTime = now, watermark = now)
+        val d2 = Datum(value = "hello".toByteArray(), eventTime = now, watermark = now)
         assertEquals(d1, d2)
         assertEquals(d1.hashCode(), d2.hashCode())
     }
 
     @Test
     fun `datums with different values are not equal`() {
-        val d1 = Datum(value = "hello".toByteArray())
-        val d2 = Datum(value = "world".toByteArray())
+        val d1 = Datum(value = "hello".toByteArray(), eventTime = now, watermark = now)
+        val d2 = Datum(value = "world".toByteArray(), eventTime = now, watermark = now)
         assertNotEquals(d1, d2)
     }
 
     @Test
-    fun `datum defaults are empty collections and null timestamps`() {
-        val datum = Datum(value = byteArrayOf())
-        assertNull(datum.eventTime)
-        assertNull(datum.watermark)
+    fun `datum defaults are empty headers`() {
+        val datum = Datum(value = byteArrayOf(), eventTime = now, watermark = now)
         assertEquals(emptyMap<String, String>(), datum.headers)
     }
 
     @Test
     fun `datum with all fields populated`() {
-        val now = Instant.now()
         val datum = Datum(
             value = "payload".toByteArray(),
             eventTime = now,

@@ -28,3 +28,5 @@ include("examples:mapper:simple-map")
 include("examples:mapper:flatmap")
 include("examples:mapstreamer:word-splitter")
 include("examples:batchmapper:simple-batch")
+
+include("examples:sourcetransformer:event-time-filter")

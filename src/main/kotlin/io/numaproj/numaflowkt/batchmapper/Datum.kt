@@ -23,16 +23,16 @@ import java.time.Instant
  *                     as the [BatchResponse.id] to correlate output with this input.
  * @property value     Raw message payload as bytes.
  * @property keys      Message keys for routing/partitioning. Empty list if not provided.
- * @property eventTime Event timestamp assigned by the source. `null` if not set.
- * @property watermark Watermark timestamp indicating processing progress. `null` if not set.
+ * @property eventTime Event timestamp assigned by the source.
+ * @property watermark Watermark timestamp indicating processing progress.
  * @property headers   Key-value metadata headers propagated through the pipeline. Empty map if none.
  */
 data class Datum(
     val id: String,
     val value: ByteArray,
     val keys: List<String> = emptyList(),
-    val eventTime: Instant? = null,
-    val watermark: Instant? = null,
+    val eventTime: Instant,
+    val watermark: Instant,
     val headers: Map<String, String> = emptyMap()
 ) {
     override fun equals(other: Any?): Boolean {
@@ -50,8 +50,8 @@ data class Datum(
         var result = id.hashCode()
         result = 31 * result + value.contentHashCode()
         result = 31 * result + keys.hashCode()
-        result = 31 * result + (eventTime?.hashCode() ?: 0)
-        result = 31 * result + (watermark?.hashCode() ?: 0)
+        result = 31 * result + eventTime.hashCode()
+        result = 31 * result + watermark.hashCode()
         result = 31 * result + headers.hashCode()
         return result
     }

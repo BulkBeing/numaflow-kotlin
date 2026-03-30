@@ -1,25 +1,27 @@
-package io.numaproj.numaflowkt.mapstreamer
+package io.numaproj.numaflowkt.sourcetransformer
 
 import java.time.Instant
 
 /**
- * Input message for a [MapStreamer].
+ * Input message for a [SourceTransformer].
  *
- * Identical structure to the [io.numaproj.numaflowkt.mapper.Datum] -- keys are passed
- * as a separate parameter to [MapStreamer.processMessage], not embedded in the Datum.
- * This matches the Java SDK convention. (Compare with
- * [io.numaproj.numaflowkt.batchmapper.Datum] which carries both `id` and `keys`.)
+ * Keys are passed as a separate parameter to [SourceTransformer.processMessage],
+ * not embedded in the Datum. This matches the Java SDK convention where
+ * `SourceTransformer.processMessage(String[] keys, Datum datum)` separates routing
+ * keys from the message payload.
+ *
+ * The [eventTime] here is the *original* event time assigned by the source.
+ * The transformer can reassign it by setting a different event time on each
+ * output [Message].
  *
  * **ByteArray equality:** [equals] and [hashCode] compare [value] by **content**
  * (not reference), so two Datums with identical byte payloads are considered equal.
- *
- * Example -- constructing test data:
- * ```kotlin
- * val datum = Datum(value = "hello world".toByteArray(), eventTime = Instant.now(), watermark = Instant.now())
- * ```
+ * This avoids the well-known Kotlin pitfall where `data class` uses reference equality
+ * for arrays.
  *
  * @property value     Raw message payload as bytes.
- * @property eventTime Event timestamp assigned by the source.
+ * @property eventTime Original event timestamp from the source. The transformer can
+ *                     reassign it by returning a different value on output [Message]s.
  * @property watermark Watermark timestamp indicating processing progress.
  * @property headers   Key-value metadata headers propagated through the pipeline. Empty map if none.
  */

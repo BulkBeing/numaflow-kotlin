@@ -6,8 +6,11 @@ import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
+import java.time.Instant
 
 class SinkerUnitTest {
+
+    private val now = Instant.now()
 
     @Test
     fun `simple sink returns Ok for each message`() = runTest {
@@ -17,8 +20,8 @@ class SinkerUnitTest {
 
         val result = sink.processMessages(
             flowOf(
-                Datum(id = "1", value = "hello".toByteArray()),
-                Datum(id = "2", value = "world".toByteArray())
+                Datum(id = "1", value = "hello".toByteArray(), eventTime = now, watermark = now),
+                Datum(id = "2", value = "world".toByteArray(), eventTime = now, watermark = now)
             )
         )
 
@@ -36,8 +39,8 @@ class SinkerUnitTest {
 
         val result = sink.processMessages(
             flowOf(
-                Datum(id = "1", value = byteArrayOf()),
-                Datum(id = "2", value = "ok".toByteArray())
+                Datum(id = "1", value = byteArrayOf(), eventTime = now, watermark = now),
+                Datum(id = "2", value = "ok".toByteArray(), eventTime = now, watermark = now)
             )
         )
 
@@ -62,11 +65,11 @@ class SinkerUnitTest {
 
         val result = sink.processMessages(
             flowOf(
-                Datum(id = "1", value = "ok".toByteArray()),
-                Datum(id = "2", value = "fail".toByteArray()),
-                Datum(id = "3", value = "fallback".toByteArray()),
-                Datum(id = "4", value = "serve".toByteArray()),
-                Datum(id = "5", value = "forward".toByteArray()),
+                Datum(id = "1", value = "ok".toByteArray(), eventTime = now, watermark = now),
+                Datum(id = "2", value = "fail".toByteArray(), eventTime = now, watermark = now),
+                Datum(id = "3", value = "fallback".toByteArray(), eventTime = now, watermark = now),
+                Datum(id = "4", value = "serve".toByteArray(), eventTime = now, watermark = now),
+                Datum(id = "5", value = "forward".toByteArray(), eventTime = now, watermark = now),
             )
         )
 
@@ -90,9 +93,9 @@ class SinkerUnitTest {
 
         val result = sink.processMessages(
             flowOf(
-                Datum(id = "a", value = "1".toByteArray()),
-                Datum(id = "b", value = "2".toByteArray()),
-                Datum(id = "c", value = "3".toByteArray()),
+                Datum(id = "a", value = "1".toByteArray(), eventTime = now, watermark = now),
+                Datum(id = "b", value = "2".toByteArray(), eventTime = now, watermark = now),
+                Datum(id = "c", value = "3".toByteArray(), eventTime = now, watermark = now),
             )
         )
 

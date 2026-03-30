@@ -3,8 +3,11 @@ package io.numaproj.numaflowkt.mapstreamer
 import kotlinx.coroutines.flow.flow
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
+import java.time.Instant
 
 class MapStreamerTestKitTest {
+
+    private val now = Instant.now()
 
     @Test
     fun `single output message over gRPC`() {
@@ -18,7 +21,7 @@ class MapStreamerTestKitTest {
             kit.start()
             val results = kit.sendRequest(
                 keys = listOf("key1"),
-                datum = Datum(value = "hello".toByteArray())
+                datum = Datum(value = "hello".toByteArray(), eventTime = now, watermark = now)
             )
             assertEquals(1, results.size)
             assertEquals("HELLO", String(results[0].value))
@@ -40,7 +43,7 @@ class MapStreamerTestKitTest {
             kit.start()
             val results = kit.sendRequest(
                 keys = listOf("k"),
-                datum = Datum(value = "hello world".toByteArray())
+                datum = Datum(value = "hello world".toByteArray(), eventTime = now, watermark = now)
             )
             assertEquals(2, results.size)
             assertEquals("hello", String(results[0].value))
@@ -59,7 +62,7 @@ class MapStreamerTestKitTest {
         MapStreamerTestKit(streamer, MapStreamerConfig(port = 50084)).use { kit ->
             kit.start()
             val results = kit.sendRequest(
-                datum = Datum(value = "test".toByteArray())
+                datum = Datum(value = "test".toByteArray(), eventTime = now, watermark = now)
             )
             assertEquals(1, results.size)
             assertEquals(listOf("U+005C__DROP__"), results[0].tags)

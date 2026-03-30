@@ -6,25 +6,25 @@ import java.time.Instant
 
 class DatumTest {
 
+    private val now = Instant.now()
+
     @Test
     fun `datum equality compares value by content`() {
-        val d1 = Datum(id = "1", value = "hello".toByteArray())
-        val d2 = Datum(id = "1", value = "hello".toByteArray())
+        val d1 = Datum(id = "1", value = "hello".toByteArray(), eventTime = now, watermark = now)
+        val d2 = Datum(id = "1", value = "hello".toByteArray(), eventTime = now, watermark = now)
         assertEquals(d1, d2)
         assertEquals(d1.hashCode(), d2.hashCode())
     }
 
     @Test
     fun `datums with different values are not equal`() {
-        val d1 = Datum(id = "1", value = "hello".toByteArray())
-        val d2 = Datum(id = "1", value = "world".toByteArray())
+        val d1 = Datum(id = "1", value = "hello".toByteArray(), eventTime = now, watermark = now)
+        val d2 = Datum(id = "1", value = "world".toByteArray(), eventTime = now, watermark = now)
         assertNotEquals(d1, d2)
     }
 
     @Test
     fun `datum with all fields populated`() {
-        val now = Instant.now()
-
         val datum = Datum(
             id = "msg-1",
             value = "payload".toByteArray(),
@@ -42,11 +42,9 @@ class DatumTest {
     }
 
     @Test
-    fun `datum defaults are empty collections and null timestamps`() {
-        val datum = Datum(id = "1", value = byteArrayOf())
+    fun `datum defaults are empty collections`() {
+        val datum = Datum(id = "1", value = byteArrayOf(), eventTime = now, watermark = now)
         assertEquals(emptyList<String>(), datum.keys)
-        assertNull(datum.eventTime)
-        assertNull(datum.watermark)
         assertEquals(emptyMap<String, String>(), datum.headers)
     }
 }

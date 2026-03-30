@@ -6,8 +6,11 @@ import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
+import java.time.Instant
 
 class MapStreamerUnitTest {
+
+    private val now = Instant.now()
 
     @Test
     fun `single message emission`() = runTest {
@@ -17,7 +20,7 @@ class MapStreamerUnitTest {
             }
         }
 
-        val flow = streamer.processMessage(listOf("k1"), Datum(value = "hello".toByteArray()))
+        val flow = streamer.processMessage(listOf("k1"), Datum(value = "hello".toByteArray(), eventTime = now, watermark = now))
         val results = flow.toList()
 
         assertEquals(1, results.size)
@@ -34,7 +37,7 @@ class MapStreamerUnitTest {
             }
         }
 
-        val flow = streamer.processMessage(listOf("k"), Datum(value = "hello world foo".toByteArray()))
+        val flow = streamer.processMessage(listOf("k"), Datum(value = "hello world foo".toByteArray(), eventTime = now, watermark = now))
         val results = flow.toList()
 
         assertEquals(3, results.size)
@@ -49,7 +52,7 @@ class MapStreamerUnitTest {
             flow { }
         }
 
-        val flow = streamer.processMessage(emptyList(), Datum(value = "test".toByteArray()))
+        val flow = streamer.processMessage(emptyList(), Datum(value = "test".toByteArray(), eventTime = now, watermark = now))
         val results = flow.toList()
 
         assertEquals(0, results.size)
@@ -65,7 +68,7 @@ class MapStreamerUnitTest {
             }
         }
 
-        val flow = streamer.processMessage(listOf("k"), Datum(value = "test".toByteArray()))
+        val flow = streamer.processMessage(listOf("k"), Datum(value = "test".toByteArray(), eventTime = now, watermark = now))
         val results = flow.toList()
 
         assertEquals(2, results.size)
@@ -81,7 +84,7 @@ class MapStreamerUnitTest {
             }
         }
 
-        val flow = streamer.processMessage(listOf("k1", "k2"), Datum(value = "test".toByteArray()))
+        val flow = streamer.processMessage(listOf("k1", "k2"), Datum(value = "test".toByteArray(), eventTime = now, watermark = now))
         val results = flow.toList()
 
         assertEquals(listOf("k1", "k2"), results[0].keys)
