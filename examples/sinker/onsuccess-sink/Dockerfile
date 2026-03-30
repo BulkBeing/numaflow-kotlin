@@ -1,8 +1,12 @@
-FROM amazoncorretto:11 AS build
-WORKDIR /app
+##
+## Build context must be the repository root:
+##   docker build -t onsuccess-sink -f examples/sinker/onsuccess-sink/Dockerfile .
+##
+FROM eclipse-temurin:21-jdk AS builder
+WORKDIR /project
 COPY . .
-RUN ./gradlew :examples:sinker:onsuccess-sink:jar --no-daemon
+RUN ./gradlew :examples:sinker:onsuccess-sink:installDist --no-daemon
 
-FROM amazoncorretto:11
-COPY --from=build /app/examples/sinker/onsuccess-sink/build/libs/*.jar /app/onsuccess-sink.jar
-ENTRYPOINT ["java", "-jar", "/app/onsuccess-sink.jar"]
+FROM eclipse-temurin:21-jre
+COPY --from=builder /project/examples/sinker/onsuccess-sink/build/install/onsuccess-sink/ /app/
+ENTRYPOINT ["/app/bin/onsuccess-sink"]

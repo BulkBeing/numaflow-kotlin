@@ -9,17 +9,9 @@ dependencies {
 }
 
 kotlin {
-    jvmToolchain(11)
+    jvmToolchain(21)
 }
 
 application {
     mainClass.set("EventTimeFilterKt")
-}
-
-tasks.jar {
-    manifest {
-        attributes("Main-Class" to "EventTimeFilterKt")
-    }
-    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
-    from(configurations.runtimeClasspath.get().map { if (it.isDirectory) it else zipTree(it) })
 }

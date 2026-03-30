@@ -2,11 +2,11 @@
 ## Build context must be the repository root:
 ##   docker build -t simple-sink -f examples/sinker/simple-sink/Dockerfile .
 ##
-FROM amazoncorretto:11 AS builder
+FROM eclipse-temurin:21-jdk AS builder
 WORKDIR /project
 COPY . .
-RUN ./gradlew :examples:sinker:simple-sink:jar --no-daemon
+RUN ./gradlew :examples:sinker:simple-sink:installDist --no-daemon
 
-FROM amazoncorretto:11
-COPY --from=builder /project/examples/sinker/simple-sink/build/libs/simple-sink.jar /app/simple-sink.jar
-ENTRYPOINT ["java", "-jar", "/app/simple-sink.jar"]
+FROM eclipse-temurin:21-jre
+COPY --from=builder /project/examples/sinker/simple-sink/build/install/simple-sink/ /app/
+ENTRYPOINT ["/app/bin/simple-sink"]
