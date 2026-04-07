@@ -70,6 +70,12 @@ java {
     withSourcesJar()
 }
 
+dokka {
+    dokkaSourceSets.main {
+        includes.from("docs/packages.md")
+    }
+}
+
 val dokkaJavadocJar by tasks.registering(Jar::class) {
     dependsOn(tasks.dokkaGeneratePublicationJavadoc)
     from(tasks.dokkaGeneratePublicationJavadoc.flatMap { it.outputDirectory })
