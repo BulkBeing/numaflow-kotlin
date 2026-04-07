@@ -30,3 +30,5 @@ include("examples:mapstreamer:word-splitter")
 include("examples:batchmapper:simple-batch")
 
 include("examples:sourcetransformer:event-time-filter")
+
+include("examples:sourcer:simple-source")
