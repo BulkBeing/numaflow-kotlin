@@ -45,5 +45,8 @@ local.properties
 ### Logs ###
 *.log
 
+### Dokka versioning ###
+previousDocVersions/
+
 ### Mac OS ###
 .DS_Store

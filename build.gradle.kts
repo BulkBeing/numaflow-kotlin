@@ -26,6 +26,8 @@ val protobufVersion = "4.31.0"
 val coroutinesVersion = "1.10.2"
 
 dependencies {
+    dokkaHtmlPlugin("org.jetbrains.dokka:versioning-plugin")
+
     // Java SDK — implementation-only so it never leaks to consumers
     implementation("io.numaproj.numaflow:numaflow-java:0.11.0")
 
@@ -73,6 +75,12 @@ java {
 dokka {
     dokkaSourceSets.main {
         includes.from("docs/packages.md")
+    }
+    pluginsConfiguration {
+        versioning {
+            version.set(project.version.toString())
+            olderVersionsDir.set(projectDir.resolve("previousDocVersions"))
+        }
     }
 }
 
