@@ -47,6 +47,7 @@ jobs:
 
       - name: Prepare previous doc versions
         run: |
+          shopt -s nullglob
           mkdir -p previousDocVersions
           if [ -d "gh-pages" ]; then
             # Copy each version directory as a previous version
@@ -66,6 +67,7 @@ jobs:
 
       - name: Assemble site
         run: |
+          shopt -s nullglob
           VERSION="${{ steps.version.outputs.version }}"
           mkdir -p site
 
@@ -73,6 +75,7 @@ jobs:
           if [ -d "gh-pages" ]; then
             for dir in gh-pages/*/; do
               version_name=$(basename "$dir")
+              # Skip special directories
               if [ "$version_name" != "older" ] && [ "$version_name" != "assets" ]; then
                 cp -r "$dir" "site/$version_name"
               fi
