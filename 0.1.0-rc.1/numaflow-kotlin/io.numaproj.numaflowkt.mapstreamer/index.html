@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" charset="UTF-8">
+    <title>io.numaproj.numaflowkt.mapstreamer</title>
+    <link href="../../images/logo-icon.svg" rel="icon" type="image/svg">
+        <script>var pathToRoot = "../../";</script>
+    <script>document.documentElement.classList.replace("no-js", "js");</script>
+    <script>const storage = localStorage.getItem("dokka-dark-mode")
+      if (storage == null) {
+        const osDarkSchemePreferred = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
+        if (osDarkSchemePreferred === true) {
+          document.getElementsByTagName("html")[0].classList.add("theme-dark")
+        }
+      } else {
+        const savedDarkMode = JSON.parse(storage)
+        if (savedDarkMode === true) {
+          document.getElementsByTagName("html")[0].classList.add("theme-dark")
+        }
+      }
+    </script>
+<script type="text/javascript" src="https://unpkg.com/kotlin-playground@1/dist/playground.min.js" async="async"></script>
+<script type="text/javascript" src="../../scripts/sourceset_dependencies.js" async="async"></script>
+<link href="../../styles/style.css" rel="Stylesheet">
+<link href="../../styles/main.css" rel="Stylesheet">
+<link href="../../styles/prism.css" rel="Stylesheet">
+<link href="../../styles/logo-styles.css" rel="Stylesheet">
+<link href="../../ui-kit/ui-kit.min.css" rel="Stylesheet">
+<script type="text/javascript" src="../../scripts/safe-local-storage_blocking.js"></script>
+<script type="text/javascript" src="../../scripts/navigation-loader.js" async="async"></script>
+<script type="text/javascript" src="../../scripts/platform-content-handler.js" async="async"></script>
+<script type="text/javascript" src="../../scripts/main.js" defer="defer"></script>
+<script type="text/javascript" src="../../scripts/prism.js" async="async"></script>
+<script type="text/javascript" src="../../ui-kit/ui-kit.min.js" defer="defer"></script>
+<link href="../../styles/multimodule.css" rel="Stylesheet">
+</head>
+<body>
+<div class="root">
+    <header class="navigation theme-dark" id="navigation-wrapper" role="banner">
+            <a class="library-name--link" href="../../index.html" tabindex="1">
+                    numaflow-kotlin
+            </a>
+        <button class="navigation-controls--btn navigation-controls--btn_toc ui-kit_mobile-only" id="toc-toggle"
+                type="button">Toggle table of contents
+        </button>
+        <div class="navigation-controls--break ui-kit_mobile-only"></div>
+        <div class="library-version" id="library-version">
+<dokka-template-command data="{&quot;@class&quot;:&quot;org.jetbrains.dokka.base.templating.ReplaceVersionsCommand&quot;,&quot;location&quot;:&quot;numaflow-kotlin/io.numaproj.numaflowkt.mapstreamer/index.html&quot;}">0.1.0-rc.1</dokka-template-command>        </div>
+        <div class="navigation-controls">
+        <ul class="filter-section filter-section_loading" id="filter-section" aria-label="Target filter">
+                <button class="platform-tag platform-selector jvm-like" data-active="" aria-pressed="true"
+                        data-filter=":/main">jvm</button>
+            <div class="dropdown filter-section--dropdown" data-role="dropdown" id="filter-section-dropdown">
+                <button class="button button_dropdown filter-section--dropdown-toggle" role="combobox"
+                        data-role="dropdown-toggle"
+                        aria-controls="platform-tags-listbox"
+                        aria-haspopup="listbox"
+                        aria-expanded="false"
+                        aria-label="Toggle source sets"
+                ></button>
+                <ul role="listbox" id="platform-tags-listbox" class="dropdown--list" data-role="dropdown-listbox" aria-label="Target filter">
+                    <div class="dropdown--header"><span>Target filter</span>
+                        <button class="button" data-role="dropdown-toggle" aria-label="Close target filter">
+                            <i class="ui-kit-icon ui-kit-icon_cross"></i>
+                        </button>
+                    </div>
+                        <li role="option" class="dropdown--option platform-selector-option jvm-like" tabindex="0">
+                            <label class="checkbox">
+                                <input type="checkbox" class="checkbox--input" id=":/main"
+                                       data-filter=":/main"/>
+                                <span class="checkbox--icon"></span>
+                                jvm
+                            </label>
+                        </li>
+                </ul>
+                <div class="dropdown--overlay"></div>
+            </div>
+        </ul>
+            <button class="navigation-controls--btn navigation-controls--btn_theme" id="theme-toggle-button"
+                    type="button">Switch theme
+            </button>
+            <div class="navigation-controls--btn navigation-controls--btn_search" id="searchBar" role="button">Search in
+                API
+            </div>
+        </div>
+    </header>
+    <div id="container">
+        <nav id="leftColumn" class="sidebar" data-item-type="SECTION" data-item-config='{"defaultSize": 280, "minSize": 200, "maxSize": 400}'>
+            <a class="toc--skip-link" href="#main">Skip to content</a>
+            <div class="dropdown theme-dark_mobile" data-role="dropdown" id="toc-dropdown">
+                <ul role="listbox" id="toc-listbox" class="dropdown--list dropdown--list_toc-list"
+                    data-role="dropdown-listbox" aria-label="Table of contents">
+                    <div class="dropdown--header">
+                            <span>
+                                    numaflow-kotlin
+                            </span>
+                        <button class="button" data-role="dropdown-toggle" aria-label="Close table of contents">
+                            <i class="ui-kit-icon ui-kit-icon_cross"></i>
+                        </button>
+                    </div>
+                    <div class="sidebar--inner" id="sideMenu"></div>
+                </ul>
+                <div class="dropdown--overlay"></div>
+            </div>
+        </nav>
+        <div id="resizer" class="resizer" data-item-type="BAR"></div>
+        <div id="main" data-item-type="SECTION" role="main">
+<div class="main-content" data-page-type="package" id="content" pageIds="numaflow-kotlin::io.numaproj.numaflowkt.mapstreamer////PointingToDeclaration//-251573632">
+  <div class="breadcrumbs"><a href="../../index.html">numaflow-kotlin</a><span class="delimiter">/</span><span class="current">io.numaproj.numaflowkt.mapstreamer</span></div>
+  <div class="cover ">
+    <h1 class="cover"><span><span>Package-level</span></span> <span><span>declarations</span></span></h1>
+    <div class="platform-hinted UnderCoverText" data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":/main"><p class="paragraph">Kotlin API for implementing Numaflow <strong>map stream</strong> UDFs.</p><p class="paragraph">A map streamer transforms messages like a regular mapper, but produces output incrementally as a <code class="lang-kotlin">Flow</code> instead of collecting all results before returning. Each emitted <code class="lang-kotlin">Message</code> is forwarded to the downstream vertex immediately, reducing latency when a single input fans out to many outputs.</p><p class="paragraph">Implement <code class="lang-kotlin">MapStreamer</code> and wire it into a gRPC server with <code class="lang-kotlin">mapStreamServer</code>:</p><div class="sample-container"><pre><code class="block lang-kotlin" theme="idea">import io.numaproj.numaflowkt.mapstreamer.Message<br>import io.numaproj.numaflowkt.mapstreamer.mapStreamServer<br>import kotlinx.coroutines.flow.flow<br><br>fun main() {<br>    mapStreamServer {<br>        mapStreamer { keys, datum -&gt;<br>            flow {<br>                String(datum.value).split(&quot; &quot;).forEach { word -&gt;<br>                    emit(Message(value = word.toByteArray(), keys = keys))<br>                }<br>            }<br>        }<br>    }.run()<br>}</code></pre><span class="copy-tooltip"><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div><span class="copy-icon"></span></span></div><p class="paragraph">In this example each word is sent downstream as soon as it is emitted from the flow, rather than buffering all words and sending them together. This is particularly beneficial when:</p><ul><li><p class="paragraph">A single input expands into many outputs (flat-map with high fan-out)</p></li><li><p class="paragraph">Output computation is incremental or async (e.g. paginated API calls)</p></li><li><p class="paragraph">Downstream consumers benefit from receiving partial results early</p></li></ul><p class="paragraph">The SDK collects the flow and eagerly forwards each <code class="lang-kotlin">Message</code> to the Java SDK's output observer. After the flow completes, the end-of-transmission marker is sent automatically.</p><p class="paragraph"><code class="lang-kotlin">MapStreamer</code> is a <code class="lang-kotlin">fun interface</code>, so simple streamers can be written as lambdas. The processing method is <code class="lang-kotlin">suspend</code>, allowing async operations (HTTP calls, database queries) and child coroutine launches from within the flow.</p><p class="paragraph"><strong>Key types:</strong></p><div class="table--container"><table><thead><tr><th>Type</th><th>Role</th></tr></thead><tbody><tr><td><code class="org.jetbrains.dokka.pages.commenttable@133d4328 lang-kotlin">MapStreamer</code></td><td>The interface to implement (<code class="org.jetbrains.dokka.pages.commenttable@133d4328 lang-kotlin">processMessage</code> returns <code class="org.jetbrains.dokka.pages.commenttable@133d4328 lang-kotlin">Flow&lt;Message&gt;</code>)</td></tr><tr><td><code class="org.jetbrains.dokka.pages.commenttable@133d4328 lang-kotlin">Datum</code></td><td>Input message: <code class="org.jetbrains.dokka.pages.commenttable@133d4328 lang-kotlin">value</code>, <code class="org.jetbrains.dokka.pages.commenttable@133d4328 lang-kotlin">eventTime</code>, <code class="org.jetbrains.dokka.pages.commenttable@133d4328 lang-kotlin">watermark</code>, <code class="org.jetbrains.dokka.pages.commenttable@133d4328 lang-kotlin">headers</code></td></tr><tr><td><code class="org.jetbrains.dokka.pages.commenttable@133d4328 lang-kotlin">Message</code></td><td>Output message: <code class="org.jetbrains.dokka.pages.commenttable@133d4328 lang-kotlin">value</code>, <code class="org.jetbrains.dokka.pages.commenttable@133d4328 lang-kotlin">keys</code>, <code class="org.jetbrains.dokka.pages.commenttable@133d4328 lang-kotlin">tags</code></td></tr><tr><td><code class="org.jetbrains.dokka.pages.commenttable@133d4328 lang-kotlin">mapStreamServer</code></td><td>DSL entry point for creating and starting the gRPC server</td></tr><tr><td><code class="org.jetbrains.dokka.pages.commenttable@133d4328 lang-kotlin">MapStreamerConfig</code></td><td>Server configuration (socket path, port, message size)</td></tr></tbody></table></div><p class="paragraph"><strong>See also:</strong> <code class="lang-kotlin">io.numaproj.numaflowkt.mapper</code> for non-streaming output (collect all results, then send), <code class="lang-kotlin">io.numaproj.numaflowkt.batchmapper</code> for processing multiple input messages in a single call.</p></div></div>
+  </div>
+  <div class="tabbedcontent">
+    <div class="tabs-section" tabs-section="tabs-section"><button class="section-tab" data-active="" data-togglable="TYPE">Types</button><button class="section-tab" data-togglable="FUNCTION,EXTENSION_FUNCTION">Functions</button></div>
+    <div class="tabs-section-body">
+      <div data-togglable="TYPE">
+        <h2 class="tableheader">Types</h2>
+        <div class="table"><a data-name="1089726678%2FClasslikes%2F-251573632" anchor-label="Datum" id="1089726678%2FClasslikes%2F-251573632" data-filterable-set=":/main"></a>
+          <div class="table-row table-row_content" data-filterable-current=":/main" data-filterable-set=":/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-datum/index.html"><span><span>Datum</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1089726678%2FClasslikes%2F-251573632"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":/main"><div class="symbol monospace"><span class="token keyword">data </span><span class="token keyword">class </span><a href="-datum/index.html">Datum</a><span class="token punctuation">(</span><span class="parameters "><span class="parameter "><span class="token keyword">val </span>value<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-byte-array/index.html">ByteArray</a><span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">val </span>eventTime<span class="token operator">: </span><a href="https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/time/Instant.html">Instant</a><span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">val </span>watermark<span class="token operator">: </span><a href="https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/time/Instant.html">Instant</a><span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">val </span>headers<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin.collections/-map/index.html">Map</a><span class="token operator">&lt;</span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token punctuation">, </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token operator">&gt;</span><span class="token operator"> = </span>emptyMap()</span></span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph">Input message for a <a href="-map-streamer/index.html">MapStreamer</a>.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-728201764%2FClasslikes%2F-251573632" anchor-label="MapStreamer" id="-728201764%2FClasslikes%2F-251573632" data-filterable-set=":/main"></a>
+          <div class="table-row table-row_content" data-filterable-current=":/main" data-filterable-set=":/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-map-streamer/index.html"><span>Map</span><wbr></wbr><span><span>Streamer</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-728201764%2FClasslikes%2F-251573632"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":/main"><div class="symbol monospace"><span class="token keyword">fun </span><span class="token keyword">interface </span><a href="-map-streamer/index.html">MapStreamer</a></div><div class="brief "><p class="paragraph">A user-defined streaming map function that produces output messages incrementally as a <span data-unresolved-link="kotlinx.coroutines.flow/Flow///PointingToDeclaration/">Flow</span>.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-321184646%2FClasslikes%2F-251573632" anchor-label="MapStreamerConfig" id="-321184646%2FClasslikes%2F-251573632" data-filterable-set=":/main"></a>
+          <div class="table-row table-row_content" data-filterable-current=":/main" data-filterable-set=":/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-map-streamer-config/index.html"><span>Map</span><wbr></wbr><span>Streamer</span><wbr></wbr><span><span>Config</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-321184646%2FClasslikes%2F-251573632"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":/main"><div class="symbol monospace"><span class="token keyword">data </span><span class="token keyword">class </span><a href="-map-streamer-config/index.html">MapStreamerConfig</a><span class="token punctuation">(</span><span class="parameters "><span class="parameter "><span class="token keyword">val </span>socketPath<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token operator"> = </span>DEFAULT_SOCKET_PATH<span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">val </span>maxMessageSize<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-int/index.html">Int</a><span class="token operator"> = </span>DEFAULT_MAX_MESSAGE_SIZE<span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">val </span>infoFilePath<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token operator"> = </span>DEFAULT_INFO_FILE_PATH<span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">val </span>port<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-int/index.html">Int</a><span class="token operator"> = </span>DEFAULT_PORT<span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">val </span>isLocal<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-boolean/index.html">Boolean</a><span class="token operator"> = </span>System.getenv(ENV_NUMAFLOW_POD) == null</span></span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph">Configuration for the map streamer gRPC server.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-240589651%2FClasslikes%2F-251573632" anchor-label="MapStreamerConfigBuilder" id="-240589651%2FClasslikes%2F-251573632" data-filterable-set=":/main"></a>
+          <div class="table-row table-row_content" data-filterable-current=":/main" data-filterable-set=":/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-map-streamer-config-builder/index.html"><span>Map</span><wbr></wbr><span>Streamer</span><wbr></wbr><span>Config</span><wbr></wbr><span><span>Builder</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-240589651%2FClasslikes%2F-251573632"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":/main"><div class="symbol monospace"><span class="token keyword">class </span><a href="-map-streamer-config-builder/index.html">MapStreamerConfigBuilder</a></div><div class="brief "><p class="paragraph">Builder for <a href="-map-streamer-config/index.html">MapStreamerConfig</a>, used inside the <code class="lang-kotlin">config { }</code> block of <a href="map-stream-server.html">mapStreamServer</a>.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1042304026%2FClasslikes%2F-251573632" anchor-label="MapStreamServer" id="-1042304026%2FClasslikes%2F-251573632" data-filterable-set=":/main"></a>
+          <div class="table-row table-row_content" data-filterable-current=":/main" data-filterable-set=":/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-map-stream-server/index.html"><span>Map</span><wbr></wbr><span>Stream</span><wbr></wbr><span><span>Server</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1042304026%2FClasslikes%2F-251573632"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":/main"><div class="symbol monospace"><span class="token keyword">class </span><a href="-map-stream-server/index.html">MapStreamServer</a></div><div class="brief "><p class="paragraph">A Numaflow map stream gRPC server.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-728015935%2FClasslikes%2F-251573632" anchor-label="MapStreamServerBuilder" id="-728015935%2FClasslikes%2F-251573632" data-filterable-set=":/main"></a>
+          <div class="table-row table-row_content" data-filterable-current=":/main" data-filterable-set=":/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-map-stream-server-builder/index.html"><span>Map</span><wbr></wbr><span>Stream</span><wbr></wbr><span>Server</span><wbr></wbr><span><span>Builder</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-728015935%2FClasslikes%2F-251573632"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":/main"><div class="symbol monospace"><span class="token keyword">class </span><a href="-map-stream-server-builder/index.html">MapStreamServerBuilder</a></div><div class="brief "><p class="paragraph">Builder for configuring a <a href="-map-stream-server/index.html">MapStreamServer</a>.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1259187551%2FClasslikes%2F-251573632" anchor-label="MapStreamServerDsl" id="1259187551%2FClasslikes%2F-251573632" data-filterable-set=":/main"></a>
+          <div class="table-row table-row_content" data-filterable-current=":/main" data-filterable-set=":/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-map-stream-server-dsl/index.html"><span>Map</span><wbr></wbr><span>Stream</span><wbr></wbr><span>Server</span><wbr></wbr><span><span>Dsl</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1259187551%2FClasslikes%2F-251573632"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":/main"><div class="symbol monospace"><div class="block"><div class="block"><span class="token annotation builtin">@</span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-dsl-marker/index.html"><span class="token annotation builtin">DslMarker</span></a></div></div><span class="token keyword">annotation class </span><a href="-map-stream-server-dsl/index.html">MapStreamServerDsl</a></div><div class="brief "><p class="paragraph">Marks DSL scope boundaries so that nested lambdas cannot accidentally call functions from an outer receiver.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-277745858%2FClasslikes%2F-251573632" anchor-label="Message" id="-277745858%2FClasslikes%2F-251573632" data-filterable-set=":/main"></a>
+          <div class="table-row table-row_content" data-filterable-current=":/main" data-filterable-set=":/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-message/index.html"><span><span>Message</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-277745858%2FClasslikes%2F-251573632"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":/main"><div class="symbol monospace"><span class="token keyword">data </span><span class="token keyword">class </span><a href="-message/index.html">Message</a><span class="token punctuation">(</span><span class="parameters "><span class="parameter "><span class="token keyword">val </span>value<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-byte-array/index.html">ByteArray</a><span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">val </span>keys<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin.collections/-list/index.html">List</a><span class="token operator">&lt;</span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token operator">&gt;</span><span class="token operator"> = </span>emptyList()<span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">val </span>tags<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin.collections/-list/index.html">List</a><span class="token operator">&lt;</span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token operator">&gt;</span><span class="token operator"> = </span>emptyList()</span></span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph">Output message from a <a href="-map-streamer/index.html">MapStreamer</a>.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div data-togglable="FUNCTION">
+        <h2 class="tableheader">Functions</h2>
+        <div class="table"><a data-name="631714257%2FFunctions%2F-251573632" anchor-label="mapStreamServer" id="631714257%2FFunctions%2F-251573632" data-filterable-set=":/main"></a>
+          <div class="table-row table-row_content" data-filterable-current=":/main" data-filterable-set=":/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="map-stream-server.html"><span>map</span><wbr></wbr><span>Stream</span><wbr></wbr><span><span>Server</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="631714257%2FFunctions%2F-251573632"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":/main"><div class="symbol monospace"><span class="token keyword">fun </span><a href="map-stream-server.html"><span class="token function">mapStreamServer</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">block<span class="token operator">: </span><a href="-map-stream-server-builder/index.html">MapStreamServerBuilder</a><span class="token punctuation">.</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-unit/index.html">Unit</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="-map-stream-server/index.html">MapStreamServer</a></div><div class="brief "><p class="paragraph">Create and configure a Numaflow map stream server.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    <div class="footer">
+        <div class="footer--container">
+            <a href="#content" id="go-to-top-link" class="footer--button footer--button_go-to-top"></a>
+            <div class="footer--content">
+                <div>
+                    <span>Generated by </span>
+                    <a class="footer--link footer--link_external" href="https://github.com/Kotlin/dokka">
+                        Dokka
+                    </a>
+                    <div>© 2026 Copyright</div>
+                </div>
+            </div>
+        </div>
+    </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

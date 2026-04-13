@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" charset="UTF-8">
+    <title>io.numaproj.numaflowkt.sinker</title>
+    <link href="../../images/logo-icon.svg" rel="icon" type="image/svg">
+        <script>var pathToRoot = "../../";</script>
+    <script>document.documentElement.classList.replace("no-js", "js");</script>
+    <script>const storage = localStorage.getItem("dokka-dark-mode")
+      if (storage == null) {
+        const osDarkSchemePreferred = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
+        if (osDarkSchemePreferred === true) {
+          document.getElementsByTagName("html")[0].classList.add("theme-dark")
+        }
+      } else {
+        const savedDarkMode = JSON.parse(storage)
+        if (savedDarkMode === true) {
+          document.getElementsByTagName("html")[0].classList.add("theme-dark")
+        }
+      }
+    </script>
+<script type="text/javascript" src="https://unpkg.com/kotlin-playground@1/dist/playground.min.js" async="async"></script>
+<script type="text/javascript" src="../../scripts/sourceset_dependencies.js" async="async"></script>
+<link href="../../styles/style.css" rel="Stylesheet">
+<link href="../../styles/main.css" rel="Stylesheet">
+<link href="../../styles/prism.css" rel="Stylesheet">
+<link href="../../styles/logo-styles.css" rel="Stylesheet">
+<link href="../../ui-kit/ui-kit.min.css" rel="Stylesheet">
+<script type="text/javascript" src="../../scripts/safe-local-storage_blocking.js"></script>
+<script type="text/javascript" src="../../scripts/navigation-loader.js" async="async"></script>
+<script type="text/javascript" src="../../scripts/platform-content-handler.js" async="async"></script>
+<script type="text/javascript" src="../../scripts/main.js" defer="defer"></script>
+<script type="text/javascript" src="../../scripts/prism.js" async="async"></script>
+<script type="text/javascript" src="../../ui-kit/ui-kit.min.js" defer="defer"></script>
+<link href="../../styles/multimodule.css" rel="Stylesheet">
+</head>
+<body>
+<div class="root">
+    <header class="navigation theme-dark" id="navigation-wrapper" role="banner">
+            <a class="library-name--link" href="../../index.html" tabindex="1">
+                    numaflow-kotlin
+            </a>
+        <button class="navigation-controls--btn navigation-controls--btn_toc ui-kit_mobile-only" id="toc-toggle"
+                type="button">Toggle table of contents
+        </button>
+        <div class="navigation-controls--break ui-kit_mobile-only"></div>
+        <div class="library-version" id="library-version">
+<dokka-template-command data="{&quot;@class&quot;:&quot;org.jetbrains.dokka.base.templating.ReplaceVersionsCommand&quot;,&quot;location&quot;:&quot;numaflow-kotlin/io.numaproj.numaflowkt.sinker/index.html&quot;}">0.1.0-rc.1</dokka-template-command>        </div>
+        <div class="navigation-controls">
+        <ul class="filter-section filter-section_loading" id="filter-section" aria-label="Target filter">
+                <button class="platform-tag platform-selector jvm-like" data-active="" aria-pressed="true"
+                        data-filter=":/main">jvm</button>
+            <div class="dropdown filter-section--dropdown" data-role="dropdown" id="filter-section-dropdown">
+                <button class="button button_dropdown filter-section--dropdown-toggle" role="combobox"
+                        data-role="dropdown-toggle"
+                        aria-controls="platform-tags-listbox"
+                        aria-haspopup="listbox"
+                        aria-expanded="false"
+                        aria-label="Toggle source sets"
+                ></button>
+                <ul role="listbox" id="platform-tags-listbox" class="dropdown--list" data-role="dropdown-listbox" aria-label="Target filter">
+                    <div class="dropdown--header"><span>Target filter</span>
+                        <button class="button" data-role="dropdown-toggle" aria-label="Close target filter">
+                            <i class="ui-kit-icon ui-kit-icon_cross"></i>
+                        </button>
+                    </div>
+                        <li role="option" class="dropdown--option platform-selector-option jvm-like" tabindex="0">
+                            <label class="checkbox">
+                                <input type="checkbox" class="checkbox--input" id=":/main"
+                                       data-filter=":/main"/>
+                                <span class="checkbox--icon"></span>
+                                jvm
+                            </label>
+                        </li>
+                </ul>
+                <div class="dropdown--overlay"></div>
+            </div>
+        </ul>
+            <button class="navigation-controls--btn navigation-controls--btn_theme" id="theme-toggle-button"
+                    type="button">Switch theme
+            </button>
+            <div class="navigation-controls--btn navigation-controls--btn_search" id="searchBar" role="button">Search in
+                API
+            </div>
+        </div>
+    </header>
+    <div id="container">
+        <nav id="leftColumn" class="sidebar" data-item-type="SECTION" data-item-config='{"defaultSize": 280, "minSize": 200, "maxSize": 400}'>
+            <a class="toc--skip-link" href="#main">Skip to content</a>
+            <div class="dropdown theme-dark_mobile" data-role="dropdown" id="toc-dropdown">
+                <ul role="listbox" id="toc-listbox" class="dropdown--list dropdown--list_toc-list"
+                    data-role="dropdown-listbox" aria-label="Table of contents">
+                    <div class="dropdown--header">
+                            <span>
+                                    numaflow-kotlin
+                            </span>
+                        <button class="button" data-role="dropdown-toggle" aria-label="Close table of contents">
+                            <i class="ui-kit-icon ui-kit-icon_cross"></i>
+                        </button>
+                    </div>
+                    <div class="sidebar--inner" id="sideMenu"></div>
+                </ul>
+                <div class="dropdown--overlay"></div>
+            </div>
+        </nav>
+        <div id="resizer" class="resizer" data-item-type="BAR"></div>
+        <div id="main" data-item-type="SECTION" role="main">
+<div class="main-content" data-page-type="package" id="content" pageIds="numaflow-kotlin::io.numaproj.numaflowkt.sinker////PointingToDeclaration//-251573632">
+  <div class="breadcrumbs"><a href="../../index.html">numaflow-kotlin</a><span class="delimiter">/</span><span class="current">io.numaproj.numaflowkt.sinker</span></div>
+  <div class="cover ">
+    <h1 class="cover"><span><span>Package-level</span></span> <span><span>declarations</span></span></h1>
+    <div class="platform-hinted UnderCoverText" data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":/main"><p class="paragraph">Kotlin API for implementing Numaflow <strong>sink</strong> UDFs.</p><p class="paragraph">A sink is a terminal vertex in a Numaflow pipeline that writes processed data to an external system (database, data warehouse, message queue, etc.). The platform delivers messages in ordered batches -- the implementation must return exactly one <code class="lang-kotlin">Response</code> per input <code class="lang-kotlin">Datum</code>, correlated by <code class="lang-kotlin">Datum.id</code>, before the next batch is delivered.</p><p class="paragraph">Implement <code class="lang-kotlin">Sinker</code> and wire it into a gRPC server with <code class="lang-kotlin">sinkServer</code>:</p><div class="sample-container"><pre><code class="block lang-kotlin" theme="idea">import io.numaproj.numaflowkt.sinker.Response<br>import io.numaproj.numaflowkt.sinker.sinkServer<br>import kotlinx.coroutines.flow.map<br>import kotlinx.coroutines.flow.toList<br><br>fun main() {<br>    sinkServer {<br>        sinker { messages -&gt;<br>            messages.map { datum -&gt;<br>                println(&quot;Received: ${String(datum.value)}&quot;)<br>                Response.Ok(datum.id)<br>            }.toList()<br>        }<br>    }.run()<br>}</code></pre><span class="copy-tooltip"><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div><span class="copy-icon"></span></span></div><p class="paragraph">Messages arrive as a <code class="lang-kotlin">Flow&lt;Datum&gt;</code>. Process them by streaming through the flow (as above) or collect first for bulk operations:</p><div class="sample-container"><pre><code class="block lang-kotlin" theme="idea">sinker { messages -&gt;<br>    val datums = messages.toList()<br>    val results = bulkInsert(datums.map { it.value })<br>    datums.zip(results).map { (datum, ok) -&gt;<br>        if (ok) Response.Ok(datum.id) else Response.Failure(datum.id, &quot;insert failed&quot;)<br>    }<br>}</code></pre><span class="copy-tooltip"><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div><span class="copy-icon"></span></span></div><h2 class="">Response routing</h2><p class="paragraph">Each <code class="lang-kotlin">Response</code> variant controls what happens to the message after the sink processes it:</p><div class="table--container"><table><thead><tr><th>Variant</th><th>Effect</th></tr></thead><tbody><tr><td><code class="org.jetbrains.dokka.pages.commenttable@133d4328 lang-kotlin">Response.Ok</code></td><td>Message processed successfully</td></tr><tr><td><code class="org.jetbrains.dokka.pages.commenttable@133d4328 lang-kotlin">Response.Failure</code></td><td>Permanent failure -- message dropped (or retried if a retry strategy is configured)</td></tr><tr><td><code class="org.jetbrains.dokka.pages.commenttable@133d4328 lang-kotlin">Response.Fallback</code></td><td>Route to the fallback (dead-letter) sink</td></tr><tr><td><code class="org.jetbrains.dokka.pages.commenttable@133d4328 lang-kotlin">Response.Serve</code></td><td>Store in a serving store for later retrieval</td></tr><tr><td><code class="org.jetbrains.dokka.pages.commenttable@133d4328 lang-kotlin">Response.OnSuccess</code></td><td>Forward a custom <code class="org.jetbrains.dokka.pages.commenttable@133d4328 lang-kotlin">Message</code> to the on-success sink</td></tr></tbody></table></div><p class="paragraph">Returning the wrong number of responses or mismatched IDs will stall the pipeline.</p><p class="paragraph"><strong>Key types:</strong></p><div class="table--container"><table><thead><tr><th>Type</th><th>Role</th></tr></thead><tbody><tr><td><code class="org.jetbrains.dokka.pages.commenttable@133d4328 lang-kotlin">Sinker</code></td><td>The interface to implement (<code class="org.jetbrains.dokka.pages.commenttable@133d4328 lang-kotlin">processMessages</code>)</td></tr><tr><td><code class="org.jetbrains.dokka.pages.commenttable@133d4328 lang-kotlin">Datum</code></td><td>Input message: <code class="org.jetbrains.dokka.pages.commenttable@133d4328 lang-kotlin">id</code>, <code class="org.jetbrains.dokka.pages.commenttable@133d4328 lang-kotlin">value</code>, <code class="org.jetbrains.dokka.pages.commenttable@133d4328 lang-kotlin">keys</code>, <code class="org.jetbrains.dokka.pages.commenttable@133d4328 lang-kotlin">eventTime</code>, <code class="org.jetbrains.dokka.pages.commenttable@133d4328 lang-kotlin">watermark</code>, <code class="org.jetbrains.dokka.pages.commenttable@133d4328 lang-kotlin">headers</code></td></tr><tr><td><code class="org.jetbrains.dokka.pages.commenttable@133d4328 lang-kotlin">Response</code></td><td>Sealed class with five result variants</td></tr><tr><td><code class="org.jetbrains.dokka.pages.commenttable@133d4328 lang-kotlin">Message</code></td><td>Payload for <code class="org.jetbrains.dokka.pages.commenttable@133d4328 lang-kotlin">Response.OnSuccess</code> forwarding</td></tr><tr><td><code class="org.jetbrains.dokka.pages.commenttable@133d4328 lang-kotlin">sinkServer</code></td><td>DSL entry point for creating and starting the gRPC server</td></tr><tr><td><code class="org.jetbrains.dokka.pages.commenttable@133d4328 lang-kotlin">SinkerConfig</code></td><td>Server configuration (socket path, port, message size)</td></tr></tbody></table></div><p class="paragraph"><strong>See also:</strong> <code class="lang-kotlin">io.numaproj.numaflowkt.mapper</code> for per-message transformation (non-terminal).</p></div></div>
+  </div>
+  <div class="tabbedcontent">
+    <div class="tabs-section" tabs-section="tabs-section"><button class="section-tab" data-active="" data-togglable="TYPE">Types</button><button class="section-tab" data-togglable="FUNCTION,EXTENSION_FUNCTION">Functions</button></div>
+    <div class="tabs-section-body">
+      <div data-togglable="TYPE">
+        <h2 class="tableheader">Types</h2>
+        <div class="table"><a data-name="977045155%2FClasslikes%2F-251573632" anchor-label="Datum" id="977045155%2FClasslikes%2F-251573632" data-filterable-set=":/main"></a>
+          <div class="table-row table-row_content" data-filterable-current=":/main" data-filterable-set=":/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-datum/index.html"><span><span>Datum</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="977045155%2FClasslikes%2F-251573632"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":/main"><div class="symbol monospace"><span class="token keyword">data </span><span class="token keyword">class </span><a href="-datum/index.html">Datum</a><span class="token punctuation">(</span><span class="parameters "><span class="parameter "><span class="token keyword">val </span>id<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">val </span>value<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-byte-array/index.html">ByteArray</a><span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">val </span>keys<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin.collections/-list/index.html">List</a><span class="token operator">&lt;</span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token operator">&gt;</span><span class="token operator"> = </span>emptyList()<span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">val </span>eventTime<span class="token operator">: </span><a href="https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/time/Instant.html">Instant</a><span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">val </span>watermark<span class="token operator">: </span><a href="https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/time/Instant.html">Instant</a><span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">val </span>headers<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin.collections/-map/index.html">Map</a><span class="token operator">&lt;</span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token punctuation">, </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token operator">&gt;</span><span class="token operator"> = </span>emptyMap()</span></span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph">An incoming message in a Numaflow pipeline.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1190507061%2FClasslikes%2F-251573632" anchor-label="Message" id="-1190507061%2FClasslikes%2F-251573632" data-filterable-set=":/main"></a>
+          <div class="table-row table-row_content" data-filterable-current=":/main" data-filterable-set=":/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-message/index.html"><span><span>Message</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1190507061%2FClasslikes%2F-251573632"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":/main"><div class="symbol monospace"><span class="token keyword">data </span><span class="token keyword">class </span><a href="-message/index.html">Message</a><span class="token punctuation">(</span><span class="parameters "><span class="parameter "><span class="token keyword">val </span>value<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-byte-array/index.html">ByteArray</a><span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">val </span>key<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token operator"> = </span><span class="token string">&quot;&quot;</span><span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">val </span>userMetadata<span class="token operator">: </span><a href="-user-metadata/index.html">UserMetadata</a><span class="token operator">?</span><span class="token operator"> = </span>null</span></span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph">A message to forward to the on-success sink.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1220779153%2FClasslikes%2F-251573632" anchor-label="Response" id="-1220779153%2FClasslikes%2F-251573632" data-filterable-set=":/main"></a>
+          <div class="table-row table-row_content" data-filterable-current=":/main" data-filterable-set=":/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-response/index.html"><span><span>Response</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1220779153%2FClasslikes%2F-251573632"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":/main"><div class="symbol monospace"><span class="token keyword">sealed </span><span class="token keyword">class </span><a href="-response/index.html">Response</a></div><div class="brief "><p class="paragraph">The result of processing a single <a href="-datum/index.html">Datum</a>.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="454829520%2FClasslikes%2F-251573632" anchor-label="Sinker" id="454829520%2FClasslikes%2F-251573632" data-filterable-set=":/main"></a>
+          <div class="table-row table-row_content" data-filterable-current=":/main" data-filterable-set=":/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-sinker/index.html"><span><span>Sinker</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="454829520%2FClasslikes%2F-251573632"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":/main"><div class="symbol monospace"><span class="token keyword">fun </span><span class="token keyword">interface </span><a href="-sinker/index.html">Sinker</a></div><div class="brief "><p class="paragraph">A user-defined sink that processes batches of messages from a Numaflow pipeline.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1868297582%2FClasslikes%2F-251573632" anchor-label="SinkerConfig" id="1868297582%2FClasslikes%2F-251573632" data-filterable-set=":/main"></a>
+          <div class="table-row table-row_content" data-filterable-current=":/main" data-filterable-set=":/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-sinker-config/index.html"><span>Sinker</span><wbr></wbr><span><span>Config</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1868297582%2FClasslikes%2F-251573632"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":/main"><div class="symbol monospace"><span class="token keyword">data </span><span class="token keyword">class </span><a href="-sinker-config/index.html">SinkerConfig</a><span class="token punctuation">(</span><span class="parameters "><span class="parameter "><span class="token keyword">val </span>socketPath<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token operator"> = </span>DEFAULT_SOCKET_PATH<span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">val </span>maxMessageSize<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-int/index.html">Int</a><span class="token operator"> = </span>DEFAULT_MAX_MESSAGE_SIZE<span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">val </span>infoFilePath<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token operator"> = </span>DEFAULT_INFO_FILE_PATH<span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">val </span>port<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-int/index.html">Int</a><span class="token operator"> = </span>DEFAULT_PORT<span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">val </span>isLocal<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-boolean/index.html">Boolean</a><span class="token operator"> = </span>System.getenv(ENV_UD_CONTAINER_TYPE) == null</span></span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph">Configuration for the sink gRPC server.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1616654023%2FClasslikes%2F-251573632" anchor-label="SinkerConfigBuilder" id="-1616654023%2FClasslikes%2F-251573632" data-filterable-set=":/main"></a>
+          <div class="table-row table-row_content" data-filterable-current=":/main" data-filterable-set=":/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-sinker-config-builder/index.html"><span>Sinker</span><wbr></wbr><span>Config</span><wbr></wbr><span><span>Builder</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1616654023%2FClasslikes%2F-251573632"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":/main"><div class="symbol monospace"><span class="token keyword">class </span><a href="-sinker-config-builder/index.html">SinkerConfigBuilder</a></div><div class="brief "><p class="paragraph">Builder for <a href="-sinker-config/index.html">SinkerConfig</a>, used inside the <code class="lang-kotlin">config { }</code> block of <a href="sink-server.html">sinkServer</a>.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-588629542%2FClasslikes%2F-251573632" anchor-label="SinkServer" id="-588629542%2FClasslikes%2F-251573632" data-filterable-set=":/main"></a>
+          <div class="table-row table-row_content" data-filterable-current=":/main" data-filterable-set=":/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-sink-server/index.html"><span>Sink</span><wbr></wbr><span><span>Server</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-588629542%2FClasslikes%2F-251573632"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":/main"><div class="symbol monospace"><span class="token keyword">class </span><a href="-sink-server/index.html">SinkServer</a></div><div class="brief "><p class="paragraph">A Numaflow sink gRPC server.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="423623501%2FClasslikes%2F-251573632" anchor-label="SinkServerBuilder" id="423623501%2FClasslikes%2F-251573632" data-filterable-set=":/main"></a>
+          <div class="table-row table-row_content" data-filterable-current=":/main" data-filterable-set=":/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-sink-server-builder/index.html"><span>Sink</span><wbr></wbr><span>Server</span><wbr></wbr><span><span>Builder</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="423623501%2FClasslikes%2F-251573632"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":/main"><div class="symbol monospace"><span class="token keyword">class </span><a href="-sink-server-builder/index.html">SinkServerBuilder</a></div><div class="brief "><p class="paragraph">Builder for configuring a <a href="-sink-server/index.html">SinkServer</a>.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="413659883%2FClasslikes%2F-251573632" anchor-label="SinkServerDsl" id="413659883%2FClasslikes%2F-251573632" data-filterable-set=":/main"></a>
+          <div class="table-row table-row_content" data-filterable-current=":/main" data-filterable-set=":/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-sink-server-dsl/index.html"><span>Sink</span><wbr></wbr><span>Server</span><wbr></wbr><span><span>Dsl</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="413659883%2FClasslikes%2F-251573632"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":/main"><div class="symbol monospace"><div class="block"><div class="block"><span class="token annotation builtin">@</span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-dsl-marker/index.html"><span class="token annotation builtin">DslMarker</span></a></div></div><span class="token keyword">annotation class </span><a href="-sink-server-dsl/index.html">SinkServerDsl</a></div><div class="brief "><p class="paragraph">Marks DSL scope boundaries so that nested lambdas cannot accidentally call functions from an outer receiver (e.g. calling <code class="lang-kotlin">sinker()</code> inside <code class="lang-kotlin">config {}</code>).</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1979501002%2FClasslikes%2F-251573632" anchor-label="UserMetadata" id="-1979501002%2FClasslikes%2F-251573632" data-filterable-set=":/main"></a>
+          <div class="table-row table-row_content" data-filterable-current=":/main" data-filterable-set=":/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-user-metadata/index.html"><span>User</span><wbr></wbr><span><span>Metadata</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1979501002%2FClasslikes%2F-251573632"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":/main"><div class="symbol monospace"><span class="token keyword">class </span><a href="-user-metadata/index.html">UserMetadata</a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">groups<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin.collections/-mutable-map/index.html">MutableMap</a><span class="token operator">&lt;</span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token punctuation">, </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin.collections/-mutable-map/index.html">MutableMap</a><span class="token operator">&lt;</span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token punctuation">, </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-byte-array/index.html">ByteArray</a><span class="token operator">&gt;</span><span class="token operator">&gt;</span><span class="token operator"> = </span>mutableMapOf()</span></span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph">Mutable user-defined metadata organized as groups of key-value pairs.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div data-togglable="FUNCTION">
+        <h2 class="tableheader">Functions</h2>
+        <div class="table"><a data-name="-872342617%2FFunctions%2F-251573632" anchor-label="sinkServer" id="-872342617%2FFunctions%2F-251573632" data-filterable-set=":/main"></a>
+          <div class="table-row table-row_content" data-filterable-current=":/main" data-filterable-set=":/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="sink-server.html"><span>sink</span><wbr></wbr><span><span>Server</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-872342617%2FFunctions%2F-251573632"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":/main"><div class="symbol monospace"><span class="token keyword">fun </span><a href="sink-server.html"><span class="token function">sinkServer</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">block<span class="token operator">: </span><a href="-sink-server-builder/index.html">SinkServerBuilder</a><span class="token punctuation">.</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-unit/index.html">Unit</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="-sink-server/index.html">SinkServer</a></div><div class="brief "><p class="paragraph">Creates a sink server with the given configuration.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    <div class="footer">
+        <div class="footer--container">
+            <a href="#content" id="go-to-top-link" class="footer--button footer--button_go-to-top"></a>
+            <div class="footer--content">
+                <div>
+                    <span>Generated by </span>
+                    <a class="footer--link footer--link_external" href="https://github.com/Kotlin/dokka">
+                        Dokka
+                    </a>
+                    <div>© 2026 Copyright</div>
+                </div>
+            </div>
+        </div>
+    </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
